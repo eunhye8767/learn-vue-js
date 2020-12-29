@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title></title>
+    </head>
+<body>
+    <div id="app"></div>
+    <script>
+        // console.log(div);
+        var div = document.querySelector('#app');
+        var str = 'hello word';
+        div.innerHTML = str;
+        
+        // 일반적인 기본 개발 방식
+        // 기존 코드 값 변경시 그 값을 다시 재실행
+        str = 'hello word!!'
+        div.innerHTML = str;
+    </script>
+</body>
+</html>
