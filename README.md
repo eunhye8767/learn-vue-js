@@ -161,3 +161,62 @@ __proto__: Object
 
 <br />
 
+### 2.2.1 인스턴스와 생성자 함수 -1 javascript
+- 기본적으로 자바스크립에서 어떤 함수를 이용하여 인스턴스를 생성하는 방법은 바로 생성자 함수를 이용하는 것이다.
+```
+    // Person 이라는 생성자 함수를 만들었다
+    // 생성자 함수는 이름을 대문자로 시작한다
+    function Person(name, job) {
+        this.name = name;
+        this.job = job;
+    }
+
+    new Person('josh', 'developer');
+```
+- 그러면 객체가 하나가 생성이 된다
+```
+    Person { name: josh, job: developer}
+```
+- 새로 생성된 객체를 P라는 객체 안에 넣어준다
+```
+    function Person(name, job) {
+        this.name = name;
+        this.job = job;
+    }
+
+    var p = new Person('josh', 'developer');
+
+    console.log(p);
+```
+- p 객체에 대한 정보를 알 수 있다
+```
+    Person { name : "josh", job: "developer" }
+```
+- 이것이 기본 생성자 함수에 대한 정의라고 이해하면 된다
+
+### 2.2.2 인스턴스와 생성자 함수 -2 Vue
+- 생성자 함수를 이용해 logoText 라는 함수를 생성했다
+```
+    // function 에 Vue 라는 생성자 함수를 이용해서
+    // 어떤 기능과 속성들을 사람들이 편하게 쓰게 하고 싶을 때
+    // logText 함수를 미리 정의하려고 한다
+
+    function Vue() {
+        this.logText = function() {
+            console.log('Hello');
+        }
+    }
+```
+- vm 으로 vue를 생성할 때 마다 객체 안에 logoText 란 함수가 들어가 있다<br />
+따라서, 매번 함수를 정의하는 것이 아니라 미리 정의된 함수를 갖다가 사용할 수 있다<br />
+이렇기 때문에 생성자 함수로 Vue 에서 api와 속성들을 다 정해놓고<br />
+갖다 쓰거나 재사용하게 되는 패턴을 갖고 있는 것이다<br />
+**이것이 new Vue()를 쓰는 이유다.**
+```
+    var vm = new Vue();
+
+    vm.logoText();
+```
+
+- MDN 생성자 함수 설명 문서 :<br />
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Obsolete_Pages/Core_JavaScript_1.5_Guide/Creating_New_Objects/Using_a_Constructor_Function
