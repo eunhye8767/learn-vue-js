@@ -349,3 +349,29 @@ https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Obsolete_Pages/Core_J
     ```
 
     ![지역 컴포넌트 등록](./_images/3-3-img1.png)
+
+    <br />
+
+    ### 3.4 전역 컴포넌트와 지역 컴포넌트의 차이점
+    - 전역 컴포넌트 등록 시 **component** &nbsp;&nbsp;/&nbsp;&nbsp;지역 컴포넌트 등록 시 **components**
+    - 지역 컴포넌트로 등록할 땐, 뒤에 **s**가 붙는 걸 명시!!!
+        - 예로 method 경우에도 methods 로 적용해야 한다
+    ```
+        // 전역 컴포넌트
+        Vue.component('컴포넌트 이름', 컴포넌트 내용);
+
+        // 지역 컴포넌트
+        new Vue({
+            el: '#app',
+            components: {
+                '컴포넌트 이름': 컴포넌트 내용
+            }
+        });
+    ```
+    - 전역 컴포넌트 사용 예<br />
+    : 플러그인, 라이브러리 형태로 전역으로 사용할 때만 전역 컴포넌트로 사용한다.
+    - 일반적으론 지역 컴포넌트를 사용하며,<br />
+    components 에서 어떤 컴포넌트를 사용했는 지 확인이 가능하다
+
+    
+        
