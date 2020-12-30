@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>instance 인스턴스</title>
+</head>
+<body>
+
+    <div id="app"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // body 태그 안에서 app 이라고 아이디를 가진 태그를 찾아서
+        // 인스턴스를 붙이겠다는 의미.
+        // 붙이는 순간 vue의 기능과 속성들이 유효해진다.
+        // el (엘리먼트를 반드시 지정해줘야 사용할 수가 있다)
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hi'
+            }
+        });
+    </script>
+
+</body>
+</html>
