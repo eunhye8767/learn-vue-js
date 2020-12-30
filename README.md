@@ -352,26 +352,93 @@ https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Obsolete_Pages/Core_J
 
     <br />
 
-    ### 3.4 전역 컴포넌트와 지역 컴포넌트의 차이점
-    - 전역 컴포넌트 등록 시 **component** &nbsp;&nbsp;/&nbsp;&nbsp;지역 컴포넌트 등록 시 **components**
-    - 지역 컴포넌트로 등록할 땐, 뒤에 **s**가 붙는 걸 명시!!!
-        - 예로 method 경우에도 methods 로 적용해야 한다
-    ```
-        // 전역 컴포넌트
-        Vue.component('컴포넌트 이름', 컴포넌트 내용);
+### 3.4 전역 컴포넌트와 지역 컴포넌트의 차이점
+- 전역 컴포넌트 등록 시 **component** &nbsp;&nbsp;/&nbsp;&nbsp;지역 컴포넌트 등록 시 **components**
+- 지역 컴포넌트로 등록할 땐, 뒤에 **s**가 붙는 걸 명시!!!
+    - 예로 method 경우에도 methods 로 적용해야 한다
+```
+    // 전역 컴포넌트
+    Vue.component('컴포넌트 이름', 컴포넌트 내용);
 
-        // 지역 컴포넌트
+    // 지역 컴포넌트
+    new Vue({
+        el: '#app',
+        components: {
+            '컴포넌트 이름': 컴포넌트 내용
+        }
+    });
+```
+- 전역 컴포넌트 사용 예<br />
+: 플러그인, 라이브러리 형태로 전역으로 사용할 때만 전역 컴포넌트로 사용한다.
+- 일반적으론 지역 컴포넌트를 사용하며,<br />
+components 에서 어떤 컴포넌트를 사용했는 지 확인이 가능하다
+
+### 3.5 컴포넌트와 인스턴스와의 관계
+- Vue 인스턴스를 2개 만든다
+```
+    <div id="app"></div>
+    <div id="app2"></div>
+
+    new Vue({
+        el: '#app',
+    })
+    new Vue({
+        el: '#app2',
+    })
+```
+- Root 가 2개 생성된 것을 확인할 수 있다
+- 인스턴스를 생성하면 Root 컴포넌트로 기본 생성된다는 것을 확인할 수 있다
+![컴포넌트와 인스터스와의 관계 1](./_images/3-5-img1.png)
+
+- 전역 컴포넌트(app-header) 경우, <br />
+생성된 인스턴스 > components 에 적용하지 않아도되지만<br />
+지역 컴포넌트(app-footer)는 반드시! 해당 인스턴스 객체 안에 표기를 해주어야 한다
+
+- **즉, 전역 컴포넌트는 인스턴스를 생성할 때마다 적용할 필요가 없지만**<br />
+**지역 컴포넌트는 반드시! 해당 인스턴스 안에 적용을 해줘야 한다!!**
+
+```
+    <div id="app">
+        <app-header></app-header>
+        <app-content></app-content>
+        <app-footer></app-footer>
+    </div>
+
+    <div id="app2">
+        <app-header></app-header>
+        <app-footer></app-footer>
+    </div>
+
+    <script>
+
+        Vue.component('app-header', {
+            template: '<h1>Header</h1>'
+        });
+
+        Vue.component('app-content', {
+            template: '<div>content</div>'
+        })
+
         new Vue({
             el: '#app',
             components: {
-                '컴포넌트 이름': 컴포넌트 내용
+                'app-footer': {
+                    template: '<footer>footer</footer>'
+                }
             }
         });
-    ```
-    - 전역 컴포넌트 사용 예<br />
-    : 플러그인, 라이브러리 형태로 전역으로 사용할 때만 전역 컴포넌트로 사용한다.
-    - 일반적으론 지역 컴포넌트를 사용하며,<br />
-    components 에서 어떤 컴포넌트를 사용했는 지 확인이 가능하다
 
-    
-        
+        new Vue({
+            el: '#app2',
+            components: {
+                'app-footer': {
+                    template: '<footer>footer</footer>'
+                }
+            }
+        })
+
+    </script>
+```
+![컴포넌트와 인스터스와의 관계 2](./_images/3-5-img2.png)
+
+<br /><br /><br />
