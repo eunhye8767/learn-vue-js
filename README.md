@@ -220,3 +220,101 @@ __proto__: Object
 
 - MDN 생성자 함수 설명 문서 :<br />
 https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Obsolete_Pages/Core_JavaScript_1.5_Guide/Creating_New_Objects/Using_a_Constructor_Function
+
+<br />
+
+### 2.3 인스턴스 옵션 속성
+- 인스턴스에서 사용할 수 있는 속성과 API는 다음과 같다
+    1. el : 인스턴스가 그려지는 화면의 시작점 (특정 HTML 태그)
+    2. template: 화면에 표시할 요소(HTML, CSS 등)
+    3. data: 뷰의 반응성(Reactivity)가 반영된 데이터 속성
+    4. methods: 화면의 동작과 이벤트 로직을 제어하는 메서드
+    5. created: 뷰의 라이프 사이클과 관련된 속성
+    6. watch: data에서 정의한 속성이 변화했을 때 추가 동작을 수행할 수 있게 정의하는 속성
+```
+    new Vue({
+        // key : value 형태
+        el: ,
+        template: ,
+        data: , 
+        methods: ,
+        created: ,
+        watch: ,
+    });
+```
+- 객체를 생성하고 그 안에 표기하는 vue 문법
+```
+    // var vm = new Vue({객체 속성값 적용});
+    
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message: 'hi',
+        },
+        methods: {
+
+        },
+        created: function() {
+
+        }
+    });
+```
+
+<br /><br /><br />
+
+##  3. 컴포넌트
+
+### 3.1 컴포넌트 소개 :: 뷰 컴포넌트
+- 컴포넌트는 **화면의 영역을 구분**하여 개발할 수 있는 뷰의 기능<br />
+컴포넌트 기반으로 화면을 개발하게 되면 **코드의 재사용성이 올라가고 빠르게 화면을 제작**할 수 있다<br />
+
+<br />
+
+### 3.2 전역 컴포넌트 등록
+- 인스턴스 생성 > - el: '#app' - 객체 생성
+- div id="app"에 인스턴스를 붙이겠다, 적용하겠다 
+```
+    <div id="app"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        
+        new Vue({
+            el: '#app'
+        })
+    </script>
+```
+- Vue 인스턴스를 생성하면 기본적으로 Root 안에 컴포넌트가 된다<br />
+![mvvm-vue](./_images/3-2-img1.png)<br />
+
+- **전역 컴포넌트 등록하는 방법**
+    1. component()로 전역 컴포넌트 등록
+    ```
+        Vue.Component('컴포넌트 이름', 컴포넌트 내용);
+    ```
+    2. 컴포넌트 내용엔 객체를 열어서 속성: 속성값 형식으로 적용한다
+    3. 컴포넌트 내용을 적고 app-header 컴포넌트를 등록한다
+    ```
+        Vue.component('app-header', {
+            template: '<h1>Header</h1>'
+        });
+
+        Vue.component('app-content', {
+            template: '<div>content</div>'
+        })
+
+    ```
+    4. 등록한 컴포넌트의 태그를 el: #app 항목 안에 적용해준다
+    5. 컴포넌트한 태그를 적어주면 컴포넌트 template에 적용된 내용이 나타나게 된다
+    ```
+        <div id="app">
+            <app-header></app-header>
+            <app-content></app-content>
+        </div>
+    ```
+    6. 전역 컴포넌트 등록은 실제 사용하는 일은 거의 없다고 한다.
+    7. 브라우저, Vue 개발자 도구에서 app-header, app-content가 등록된 것을 확인할 수 있다<br />
+        - Root = 상위 컴포넌트, 일반적으로 부모에 해당 된다
+        - header, content 가 하위 컴포넌트로써 보통 자식 컴포넌트라고 부르기도 한다
+    
+![mvvm-vue](./_images/3-2-img2.png)
