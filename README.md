@@ -318,3 +318,34 @@ https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Obsolete_Pages/Core_J
         - header, content 가 하위 컴포넌트로써 보통 자식 컴포넌트라고 부르기도 한다
     
 ![mvvm-vue](./_images/3-2-img2.png)
+
+<br />
+
+### 3.3 지역 컴포넌트 등록
+- 서비스를 만들 때 가장 많이 쓰는 컴포넌트 등록 방법이다
+- **지역 컴포넌트 등록하는 방법**
+    1. 인스턴스 객체 안에 component 객체를 만들어준다 
+        - {} 객체표기법(=객체 리터럴) ex) 속성명: {}
+    ```
+        new Vue({
+            el: '#app',
+            components: {
+            }
+        });
+    ```
+    2. component 에 생성해야 할 컴포넌트 객체를 만든다 ex) app-footer
+        - 컴포넌트 내용을 적용해줄 때도 객체표기법('{}')을 이용해 작성한다
+    ```
+        new Vue({
+            el: '#app',
+            components: {
+                // '키(속성)': '값(속성)',
+                // '컴포넌트 이름' : 컴포넌트 내용
+                'app-footer': {
+                    template: '<footer>footer</footer>'
+                }
+            }
+        });
+    ```
+
+    ![지역 컴포넌트 등록](./_images/3-3-img1.png)
