@@ -696,3 +696,50 @@ template: '< h1 >{{ propsdata }}< /h1 >'
     ![이벤트 에밋 콘솔로그](./_images/4-6-img1.png)
 
 <br />
+
+### 4.7. 실습 - event emit
+- add 버튼을 클릭하면 addNumber 함수를 실행하겠다<br />
+v-on:click="addNumber"
+- addNumber 함수 실행 시 increase 이벤트를 실행하겠다<br />
+this.$emit('increase');
+```
+    var appContent = {
+        template: '<button v-on:click="addNumber">add</button>',
+        methods: {
+            addNumber: function() {
+                this.$emit('increase');
+            }
+        }
+    }
+```
+- increase 이벤트를 app-content 컴포넌트에서 increaseNumber 함수를 실행하겠다
+- increaseNumber 함수 이벤트는 add 버튼 클릭 시 num 값을 1씩 증가 시킨다
+```
+    <app-content v-on:increase="increaseNumber"></app-content>
+
+    new Vue({
+        el: '#app',
+        components: {
+            'app-content': appContent,
+        },
+        methods: {
+            increaseNumber: function() {
+                this.num = this.num +1;
+            }
+        },
+        data: {
+            num: 10
+        }
+    })
+```
+![이벤트 에밋 실습 1-1](./_images/4-7-img1.png)
+
+- num 값을 html에서 화면 출력하고자 할 땐, 데이터 바인딩 문법을 이용하여 적용한다
+- num 값이 화면 출력 화면에 실시간으로 나오게 되고<br />
+[뷰 개발자 도구] Events에서 increase 이벤트가 실행되는 것을 확인할 수 있다
+```
+    <div id="app">
+        <p>{{ num }} </p>
+    </div>
+```
+![이벤트 에밋 실습 1-2](./_images/4-7-img2.png)
