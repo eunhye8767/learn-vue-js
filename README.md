@@ -442,3 +442,145 @@ components 에서 어떤 컴포넌트를 사용했는 지 확인이 가능하다
 ![컴포넌트와 인스터스와의 관계 2](./_images/3-5-img2.png)
 
 <br /><br /><br />
+
+##  4. 컴포넌트 통신 방법 - 기본
+
+### 4.1. 컴포넌트 통신
+- 뷰 컴포넌트는 각각 고유한 데이터 유효 범위를 갖는다.
+- 따라서, 컴포넌트 간에 데이터를 주고 받기 위해선 아래와 같은 규칙을 따라야 한다.
+
+![컴포넌트 통신](./_images/4-1-img1.png)
+
+- 상위에서 하위로는 데이터를 내려줌, **프롭스 속성**
+- 하위에서 사위로는 이벤트를 올려줌, **이벤트 발생**
+
+<br />
+
+### 4.2. 컴포넌트 통신 규칙이 필요한 이유
+- 컴포넌트 통신 규칙으로 데이터의 흐름을 추적할 수 있다
+- 데이터는 아래로 흘러가고 이벤트는 위로 올라가기 때문이다<br />
+(데이터 = props(프롭스))
+![컴포넌트 통신 규칙](./_images/4-2-img1.png)
+
+<br />
+
+### 4.3. props 속성
+- template를 변수로 만들어서 적용하려고 한다
+- 아래 코드에서 components: { ***template:'< h1 >header< /h1 >'** } 이 부분을 변수로 만든다
+```
+    new Vue({
+        el: '#app',
+        components: {
+            // template 길어질 수 있어 변수로 등록한다
+            // 'app-header': {
+                // template: '<h1>header</h1>'
+            //}
+            'app-header': appHeader,
+        }
+    });
+```
+- template 변수로 만들기
+- 변수는 **카멜케이스를 이용**해 만든다. <br />
+단어들을 묶어서 표현할 때 **첫번째 단어를 제외한 단어들의 앞글자를 대문자**로 쓴다.<br />
+ex) app-header = appHeader
+- template 를 변수로 만들어서 사용하는 이유는 코드가 길어지기 때문에 해당영역을 변수로 사용하여 적용한다
+```
+    var appHeader = {
+        template: '<h1>header</h1>'
+    }
+
+    new Vue({
+        el: '#app',
+        components: {
+            'app-header': appHeader,
+        }
+    });
+```
+- Vue() 인스턴스에 data 객체 속성을 적용하고 message 객체를 적용한다
+- 뷰 개발자 도구에서 보면 Root에 data - message:hi 를 확인할 수 있다
+```
+    <script>
+        new Vue({
+            el: '#app',
+            components: {
+                'app-header': appHeader,
+            },
+            data: {
+                message: 'hi'
+            }
+        });
+    </script>
+```
+![프롭스 속성1](./_images/4-3-img1.png)
+
+- app-header 컴포넌트에 data - message 값을 받기 위해 props 를 적용한다
+```
+    <app-header v-bind:프롭스 속성 이름="상위 컴포넌트의 데이터 이름"></app-header>
+```
+- 상위 컴포넌트의 데이터 이름 : message<br />
+app-header 상위 컴포넌트는 Root = #app<br />
+따라서 app의 data 에 적용된 속성이름 message 를 적어준다
+- 프롭스 속성이름은 변수로 만든 appHeader 에 props 속성을 적용하여 이름을 적어준다<br />
+props: ['프롭스 이름']
+- 따라서 v-bind:**propsdata**=**'message'**
+```
+    <div id="app">
+        <app-header v-bind:propsdata="message"></app-header>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+
+        var appHeader = {
+            template: '<h1>header</h1>',
+            props: ['propsdata']
+        }
+
+        new Vue({
+            el: '#app',
+            components: {
+                'app-header': appHeader,
+            },
+            data: {
+                message: 'hi'
+            }
+        });
+    </script>
+```
+- [뷰 개발자 도구] Root 에 data - message: 'hi' 값을 확인할 수 있다
+![프롭스 속성2](./_images/4-3-img2.png)
+
+- [뷰 개발자 도구] AppHeader 에서 props - propsdata: 'hi' 값을 확인할 수 있다
+![프롭스 속성3](./_images/4-3-img3.png)
+
+### 4.4. props 속성의 특징
+- data 에서 받은 props 내용을 화면에 출력하고자 할 땐,<br />
+데이터 바인딩 {{}} 문법을 통해 props에 정의한 propsdata 이름을 template 에 적용한다<br />
+template: '< h1 >{{ propsdata }}< /h1 >'
+- 데이터 바인딩 {{ }} 문법에 data 속성과 props 속성이름을 적어주면 해당 내용이 화면에 출력된다
+```
+    <div id="app">
+        <app-header v-bind:propsdata="message"></app-header>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+
+        var appHeader = {
+            // template: '<h1>header</h1>',
+            template: '<h1>{{ propsdata }}</h1>',
+            props: ['propsdata']
+        }
+
+        new Vue({
+            el: '#app',
+            components: {
+                'app-header': appHeader,
+            },
+            data: {
+                message: 'hi'
+            }
+        });
+    </script>
+```
+![프롭스 속성 특징](./_images/4-4-img1.png)
