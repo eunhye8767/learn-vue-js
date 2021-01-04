@@ -781,3 +781,161 @@ this 를 쓰면 obj 를 가리키게 된다.<br />
 
 <br /><br /><br />
 
+##  5. 컴포넌트 통신 방법 - 응용
+### 5.1. 같은 컴포넌트 레벨 간의 통신 방법
+- Root : Vue 인스턴스<br />
+app-header 컴포넌트와 app-content 컴포넌트에서 데이터를 보내고자 할 때<br />
+즉, 같은 컴포넌트 레벨 간의 톧신방법을 알아보고자 한다<br />
+상위 컴포넌트 -> 하위 컴포넌트 (props 프롭스)<br />
+상위 컴포넌트 <- 하위 컴포넌트 (이벤트 발생)
+![5-1-1](./_images/5-1-img1.png)
+
+### 5.1. 같은 컴포넌트 레벨 간의 구현 1
+**content 에서 pass 버튼 클릭 시 header 에 데이터를 전송하려고 한다**
+```
+    <div id="app">
+        <app-header></app-header>
+        <app-content></app-header>
+    </div>
+
+    <script>
+
+        var appHeader = {
+            template: '<div>header</div>'
+        }
+        var appContent = {
+            template: '<div>content<button>pass</button></div>',
+        }
+
+        new Vue({
+            el: '#app',
+            components: {
+                'app-header': appHeader,
+                'app-content': appContent
+            }
+        });
+    </script>
+```
+- pass 버튼 클릭 시 passNum 함수를 실행시키려고 한다<br />
+- passNum 함수가 실행될 때, pass 이벤트가 실행이 되면서 10을 넘겨줄려고 한다.
+```
+    var appContent = {
+        template: '<div>content<button v-on:click="passNum">pass</button></div>',
+        methods: {
+            passNum: function() {
+                this.$emit('pass', 10)
+            }
+        }
+    }
+```
+
+- pass 이벤트가 실행되면 10이 넘어간 것을 확인할 수 있다<br />
+payload: Array[1] 에서 0:10 
+![5-1-3](./_images/5-1-img3.png)<br />
+
+
+- app-content 에서 app-header로 바로 데이터를 넘길 수가 없어서<br />
+app-header의 상위 컴포넌트인 Root로 넘긴 후에 Root에서 app-header로 넘기려고 한다
+- 올릴 때는 이벤트, 내릴 때는 props(프롭스)
+
+![5-1-2](./_images/5-1-img2.png)<br />
+
+- Root 에서 app-header로 데이터를 넘길려면 root에서 데이터를 선언해야 한다
+```
+    new Vue({
+        el: '#app',
+        components: {
+            'app-header': appHeader,
+            'app-content': appContent
+        },
+        data: {
+            num: 0,
+        }
+    });
+```
+
+- app-content에서 v-on을 통해 pass 이벤트의 값을 받고 상위 컴포넌트의 메서드를 실행한다<br />
+(상위 컴포넌트, 현재 기준으론 Root 를 가리키게 된다)
+-  Root의 메서드 deliverNum 생성하고 pass 이벤트를 받았을 때 수행할 수 있게 v-on에 적용한다
+```
+    <div id="app">
+        <app-header></app-header>
+        <app-content v-on:pass="deliverNum"></app-header>
+    </div>
+```
+```
+    new Vue({
+        el: '#app',
+        components: {
+            'app-header': appHeader,
+            'app-content': appContent
+        },
+        data: {
+            num: 0,
+        },
+        methods: {
+            // 받은 인자를 value로 정의한다
+            deliverNum: function(value) {
+                this.num = value
+            }
+        }
+    });
+```
+
+- pass 버튼을 클릭하면 Root에 data num:10이 생성되는 걸 볼 수 있다
+![5-1-4](./_images/5-1-img4.png)<br />
+
+- 이제, 전달된 num:10 값을 app-header에 전달하려고 한다.
+- appHeader 에 props 객체를 추가해주고,<br />
+app-header 태그에 v-bind로 추가한 props 객체를 연결해준다
+```
+    <div id="app">
+        <app-header v-bind:propsdata="num"></app-header>
+        <app-content v-on:pass="deliverNum"></app-header>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+
+        var appHeader = {
+            template: '<div>header</div>',
+            props: ['propsdata']
+        }
+        var appContent = {
+            template: '<div>content<button v-on:click="passNum">pass</button></div>',
+            methods: {
+                passNum: function() {
+                    // pass 이벤트 실행, 값 10을 넘겨준다
+                    this.$emit('pass', 10)
+                }
+            }
+        }
+
+        new Vue({
+            el: '#app',
+            components: {
+                'app-header': appHeader,
+                'app-content': appContent
+            },
+            data: {
+                num: 0,
+            },
+            methods: {
+                // 받은 인자(10)를 value로 정의한다
+                deliverNum: function(value) {
+                    this.num = value
+                }
+            }
+        });
+    </script>
+```
+
+- 작업한 html 파일에서 클릭이벤트가 제대로 작동이 되는 지<br />
+[뷰 개발자 도구] Events 에서 확인해본다
+![5-1-5](./_images/5-1-img5.png)<br />
+
+- [뷰 개발자 도구] app-header 태그에 props 값이 적용된 것을 확인할 수 있다
+![5-1-6](./_images/5-1-img6.png)<br />
+![5-1-7](./_images/5-1-img7.png)
+
+<br /><br /><br />
