@@ -584,3 +584,65 @@ template: '< h1 >{{ propsdata }}< /h1 >'
     </script>
 ```
 ![프롭스 속성 특징](./_images/4-4-img1.png)
+
+<br />
+
+### 4.5. event emit
+- **이벤트 발생 :**<br />
+이벤트 발생은 컴포넌트의 통신 방법 중 하위 컴포넌트에서 상위 컴포넌트로 통신하는 방식이다
+- 이벤트 발생 코드 형식<br />
+하위 컴포넌트의 메서드나 라이프 사이클 훅과 같은 곳에 아래와 같이 코드를 추가한다
+- this.$emit = 뷰의 api = 기능
+```
+    // 하위 컴포넌트의 내용
+    this.$emit('이벤트 명');
+```
+- 그리고 나서 해당 이벤트를 수신하기 위해 상위 컴포넌트의 템플릿에 아래와 같이 구현한다.
+```
+    <!-- 상위 컴포넌트의 템플릿 -->
+    <div id="app>
+        <child-component v-on:이벤트 명="상위 컴포넌트의 실행할 메서드 명 또는 연산"></child-component>
+    </div>
+```
+<br />
+
+- **event emit 예시-1**
+    1. button 을 만들고 v-on:click 클릭 이벤트를 적용한다
+    2. 버튼을 클릭했을 때 passEvent 메서드 실행시킬려고 한다<br />
+    해당 컴포넌트 변수에 methods - passEvent 함수를 정의해준다
+    3. 기본적으로 메서드의 함수 표기는 아래와 같다<br />
+    methods: {<br />
+    &nbsp;&nbsp;//메서드 함수이름 : function()
+    &nbsp;&nbsp;passEvent: function() {<br />
+    &nbsp;&nbsp;}<br />
+    }
+    4. this.$emit('pass') => this.$emit 으로 pass 라는 이벤트를 보낼려고 한다
+    ```
+        <div id="app">
+            <app-header></app-header>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script>
+
+            var appHeader = {
+                template: '<button v-on:click="passEvent">click me</button>',
+                methods: {
+                    passEvent: function() {
+                        this.$emit('pass');
+                    }
+                }
+            }
+
+            new Vue({
+                el: '#app',
+                components: {
+                    'app-header': appHeader
+                }
+            })
+        </script>
+    ```
+    5. [뷰 개발자 도구] Events 항목에서 이벤트 내역(로깅)을 확인할 수 있다
+        - < app-header > 에서 $emit 이벤트가 발생되는데 pass라는 이벤트가 발생되었다는 것을 확인할 수 있다
+    ![이벤트 에밋](./_images/4-5-img1.png)
+
