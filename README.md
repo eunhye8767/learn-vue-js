@@ -646,3 +646,53 @@ template: '< h1 >{{ propsdata }}< /h1 >'
         - < app-header > 에서 $emit 이벤트가 발생되는데 pass라는 이벤트가 발생되었다는 것을 확인할 수 있다
     ![이벤트 에밋](./_images/4-5-img1.png)
 
+<br />
+
+### 4.6. event emit으로 콘솔 출력하기
+- $emit을 설정한 후, 컴포넌트에서 해당 값을 받을 수 있게 설정을 해줘야 한다
+- v-on:하위 컴포넌트에서 발생한 이벤트 이름="상위 컴포넌트에서의 메서드 이름"
+```
+    <app-header v-on:하위 컴포넌트에서 발생한 이벤트 이름="상위 컴포넌트에서의 메서드 이름"></app-header>
+```
+
+<br />
+
+- **event emit으로 콘솔 출력하는 방법**
+    1. logText : 상위 컴포넌트에서의 메서드 이름<br />
+    2. pass&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 하위 컴포넌트에서 발생한 이벤트 이름<br />
+    ```
+        <app-header v-on:pass="logText"></app-header>
+    ```
+    3. Root 에서 methods - logText 함수를 생성하고<br />
+    passEvent 이벤트 발생 시 해당 함수가 실행되게 적용을 한다
+    ```
+        new Vue({
+            el: '#app',
+            components: {
+                'app-header': appHeader
+            },
+            methods: {
+                logText: function() {
+                    console.log('hi');
+                }
+            }
+        })
+    ```
+    4. appHeader 변수에서 methods - passEvent 함수에서 정의된 this.$emit(이벤트이름)을 확인할 수 있다
+    ```
+        var appHeader = {
+            template: '<button v-on:click="passEvent">click me</button>',
+            methods: {
+                passEvent: function() {
+                    this.$emit('pass');
+                }
+            }
+        }
+    ```
+
+    5. [뷰 개발자 도구] Events 에서 **click me 버튼을 클릭할 때마다 이벤트 내역(로깅) 추가 확인**을 할 수 있다<br />
+    (하위 컴포넌트 --(이벤트 발생)--> 상위 컴포넌트 )
+    6. [콘솔] 창에서 **click me 버튼을 클릭할 때마다 로그가 추가** 된 것을 확인할 수 있다
+    ![이벤트 에밋 콘솔로그](./_images/4-6-img1.png)
+
+<br />

@@ -8,7 +8,11 @@
 </head>
 <body>
     <div id="app">
-        <app-header></app-header>
+        <!-- 
+            $emit 을 설정을 한 후, 컴포넌트에서 해당 값을 받을 수 있게 설정을 해줘야 한다
+            <app-header v-on:하위 컴포넌트에서 발생한 이벤트 이름="상위 컴포넌트에서의 메서드 이름"></app-header>
+        -->
+        <app-header v-on:pass="logText"></app-header>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -27,6 +31,11 @@
             el: '#app',
             components: {
                 'app-header': appHeader
+            },
+            methods: {
+                logText: function() {
+                    console.log('hi');
+                }
             }
         })
     </script>
