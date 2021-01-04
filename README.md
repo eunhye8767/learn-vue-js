@@ -743,3 +743,41 @@ this.$emit('increase');
     </div>
 ```
 ![이벤트 에밋 실습 1-2](./_images/4-7-img2.png)
+
+### 4.8. 뷰 인스턴스에서의 this
+- obj 객체에서 num 에 접근하고 싶으면<br />
+getNumber 메소드에서 this.num 으로 적용하면 된다.
+- obj 객체 안에서 객체 속성에서 다른 속성이나 어떤 것을 가리킬 때에는<br />
+this 를 쓰면 obj 를 가리키게 된다.<br />
+(ex. obj = this )
+```
+    var obj = {
+        num:10,
+        getNumber: function() {
+            console.log(this.num);
+        }
+    }
+```
+![뷰 인스턴스 1-1](./_images/4-8-img1.png)
+
+- 아래 this 가 가르키는 것은 Vue
+- methods의 getNumber 속성 함수 안에서 this 는 해당 data의 num 을 바라본다
+```
+    var Vue = {
+        el: '',
+        data: {
+            num: 10,
+        },
+        methods: {    
+            getNumber: function() {
+                this.num
+            }
+        }
+    }
+```
+
+- this 관련 글 1 : https://www.w3schools.com/js/js_this.asp
+- this 관련 글 2 : https://medium.com/better-programming/understanding-the-this-keyword-in-javascript-cb76d4c7c5e8
+
+<br /><br /><br />
+
