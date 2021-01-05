@@ -998,3 +998,73 @@ router: router (변수로 만든 router를 연결한다)
 ```
 - VueRouter 가 Vue에 제대로 주입이 되었다 라는 것을 알 수 있다
 ![6-2-1](./_images/6-2-img1.png)
+
+<br />
+
+### 6.3. [실습] routes 속성 설명 및 실습안내
+- VueRouter 객체 안에 routes 속성을 추가한다
+- **routes** 속성은 **페이지의 라우팅 정보**를 뜻한다.
+    - **페이지의 라우팅 정보란**, 어떤 URL로 이동했을 때<br />
+    어떤 페이지가 뿌려질 지에 대한 정보가 배열로 담기게 된다
+    - routes: [, , ...]
+```
+    var router = new VueRouter({
+        routes: [
+        ]
+    });
+```
+<br />
+
+- routes 속성에 2개의 페이지를 담아보려고 한다
+- 2개의 페이지 모두 객체로 적용하려고 한다<br />
+**즉, 페이지의 갯수만큼 객체가 들어간다** (페이지 2개를 만들 예정으로 객체 2개 생성)<br />
+- 작업하기 전, 구조를 아래처럼 먼저 잡은 후 내용을 채워넣는 식으로 작업을 진행한다
+```
+    var router = new VueRouter({
+        routes: [
+            {},
+            {},
+        ]
+    });
+```
+
+<br />
+
+- routes 객체(**{ }**) 안에 path, component 속성을 추가한다
+- path : 페이지의 url
+- component : 해당 url에서 표시될 컴포넌트
+```
+    var LoginComponent = {
+        template: '<div>login</div>'
+    }
+
+    var router = new VueRouter({
+        routes: [
+            {
+                path: '/login',
+                component: LoginComponent
+            },
+            {},
+        ]
+    });
+```
+
+<br />
+
+- **< router-view >**<br />
+: 페이지 url이 이동(변경)되었을 때 그 url에 따라서 변경되는 영역을 말한다
+- router-view는 Vue 인스턴스에 router 속성으로 연결이 되어야만 쓸 수 있는 태그이다.<br />
+(연결이 안되었을 경우, 콘솔 창에 에러 발생)
+```
+    <div id="app">
+        <router-view></router-view>
+    </div>
+```
+![6-3-1](./_images/6-3-img1.png)
+
+<br />
+
+- 주소 뒤에 /login 으로 페이지 이동을 하게 되면<br />
+해당 페이지에 맞는 컴포넌트로 변경된 것을 확인할 수 있다
+- **path 속성에 기입한 url로 페이지 이동되면 해당 컴포넌트로 변경**
+![6-3-2](./_images/6-3-img2.png)
