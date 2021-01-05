@@ -999,7 +999,77 @@ router: router (변수로 만든 router를 연결한다)
 - VueRouter 가 Vue에 제대로 주입이 되었다 라는 것을 알 수 있다
 ![6-2-1](./_images/6-2-img1.png)
 
+**6.2.1 뷰 라우터 등록**<br />
+뷰 라우터를 설치하고 나면 아래와 같이 라우터 인스턴스를 하나 생성하고 뷰 인스턴스에 등록한다
+```
+    // 라우터 인스턴스 생성
+    var router = new VueRouter({
+        // 라우터 옵션
+    })
+
+    // 인스턴스에 라우터 인스턴스를 등록
+    new Vue({
+        router: router
+    })
+```
+
 <br />
+
+**6.2.2 뷰 라우터 옵션**<br />
+위와 같이 라우터를 등록하고 나면 그 다음에 할 일은 라우터에 옵션을 정의하는 일이다.<br />
+대부분의 SPA 앱에서는 아래와 같이 2개 옵션을 필수로 지정한다
+- routes : 라우팅 할 URL과 컴포넌트 값 지정
+- mode : URL의 해쉬 값 제거 속성
+그럼 위 옵션으로 라우터를 정의해보겠다
+```
+    new VueRouter({
+        mode: 'history',
+        routes: [
+            {
+                path: '/login',
+                component: LoginComponent
+            },
+            {
+                path: '/home',
+                component: HomeComponent
+            }
+        ]
+    })
+```
+<br />
+
+- mode: 'history' 는 라우팅을 할 때 URL에 # 값을 제거하고, <br />
+URL 값이 /login 과 /home 일 때 각각 로그인 컴포넌트와  홈 컴포넌트를 뿌려준다<br />
+(※ 아래 이미지에 네모 박스로 표시된 # 부분을 제거해준다는 뜻!)
+![6-2-1](./_images/6-2-img2.png)
+<br />
+
+**6.2.3 router-view**<br />
+브라우저의 주소 창에서 URL이 변경되면, <br />
+앞에서 정의한 routes 속성에 따라 해당 컴포넌트가 화면에 뿌려진다<br />
+이 때 뿌려지는 지점이 템플릿의 < router-view > 이다.
+```
+    <div id="app">
+        <router-view></router-view> <!-- LoginComponent 또는 HomeComponent -->
+    </div>
+```
+(6.2.1, 6.2.2) 앞에서 정의한 라우팅 옵션 기준으로 /login 은 로그인 컴포넌트를<br />
+/home 은 홈 컴포넌트를 화면에 표시한다
+
+**6.2.4 router-link**<br />
+일반적으로 웹 페이지에서 페이지 이동을 할 때는 사용자가 url을 다 쳐서 이동하지 않는다.<br />
+이 때 화면에서 특정 링크를 클릭해서 페이지를 이동할 수 있게 해줘야 하는데 그게 바로 < router-link > 이다.
+```
+    <router-link to="이동할 URL"></router-link>
+```
+실제 코드 예시는 다음과 같다
+```
+    <div>
+        <router-link to="/login"></router-link>
+    </div>
+```
+위 코드를 실행하면 화면에서는 < a > 태그로 변형되서 나온다<br />
+< a > 태그를 클릭하면 /login URL로 이동이 된다
 
 ### 6.3. [실습] routes 속성 설명 및 실습안내
 - VueRouter 객체 안에 routes 속성을 추가한다
