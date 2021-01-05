@@ -790,7 +790,7 @@ app-header 컴포넌트와 app-content 컴포넌트에서 데이터를 보내고
 상위 컴포넌트 <- 하위 컴포넌트 (이벤트 발생)
 ![5-1-1](./_images/5-1-img1.png)
 
-### 5.1. 같은 컴포넌트 레벨 간의 구현 1
+### 5.2. 같은 컴포넌트 레벨 간의 구현 1
 **content 에서 pass 버튼 클릭 시 header 에 데이터를 전송하려고 한다**
 ```
     <div id="app">
@@ -939,3 +939,41 @@ app-header 태그에 v-bind로 추가한 props 객체를 연결해준다
 ![5-1-7](./_images/5-1-img7.png)
 
 <br /><br /><br />
+
+##  6. 라우터 (router)
+### 6.1. 뷰 라우터 소개와 설치
+#### 6.1.1. 뷰 라우터
+뷰 라우터는 뷰 라이브러리를 이용하여 싱글 페이지 애플리케이션을 구현할 때 사용하는 라이브러리 이다<br />
+공식 사이트 : https://router.vuejs.org/installation.html
+
+#### 6.1.2. 뷰 라우터 설치
+프로젝트에 뷰 라우터를 설치하는 방법은 CDN 방식과 NPM 방식 2가지가 있다
+
+**6.1.2.1. CDN 방식**
+```
+    <script src="https://unpkg.com/vue-router@3.4.9/dist/vue-router.js"></script>
+```
+- CDN 방식으로 할 때 vue.js > vue-router 순으로 적용한다
+- vue와 router 인스턴스까지 생성한다 (기본 폼)
+```
+    <div id="app"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.4.9/dist/vue-router.js"></script>
+    <script>
+
+        new VueRouter({
+
+        });
+
+        new Vue({
+            el: '#app'
+        });
+        
+    </script>
+```
+
+**6.1.2.2. NPM 방식**
+```
+    npm install vue-router
+```
