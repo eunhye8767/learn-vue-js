@@ -977,3 +977,24 @@ app-header 태그에 v-bind로 추가한 props 객체를 연결해준다
 ```
     npm install vue-router
 ```
+
+### 6.2. 뷰 라우터 인스턴스 연결 및 초기 상태 안내
+- VueRouter 를 Vue 인스턴스에 동작 시키려고 한다
+- new VueRouter 를 변수 router에 담는다
+- Vue 인스턴스에 변수로 만든 router 를 연결하는데<br />
+router: 로 명시된 부분은 vue에 methode, components 처럼 미리 만들어져있는 속성이다<br />
+router: router (변수로 만든 router를 연결한다)
+```
+    <script>
+        var router = new VueRouter({
+
+        });
+
+        new Vue({
+            el: '#app',
+            router:  router,
+        });
+    </script>
+```
+- VueRouter 가 Vue에 제대로 주입이 되었다 라는 것을 알 수 있다
+![6-2-1](./_images/6-2-img1.png)
