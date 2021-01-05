@@ -9,6 +9,13 @@
 <body>
 
     <div id="app">
+
+        <!-- router-link 태그는 페이지 이동을 위한 링크 태그이다 -->
+        <div>
+            <router-link to="/login">Login</router-link>
+            <router-link to="/main">Main</router-link>
+        </div>
+
         <!-- 페이지 url이 이동(변경)되었을 때 그 url에 따라서 변경되는 영역  -->
         <router-view></router-view>
     </div>

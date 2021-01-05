@@ -1068,3 +1068,23 @@ router: router (변수로 만든 router를 연결한다)
 해당 페이지에 맞는 컴포넌트로 변경된 것을 확인할 수 있다
 - **path 속성에 기입한 url로 페이지 이동되면 해당 컴포넌트로 변경**
 ![6-3-2](./_images/6-3-img2.png)
+
+<br />
+
+### 6.4. 링크를 이용한 페이지 이동 및 router-link 태그 설명
+- router-link 태그는 페이지 이동을 위한 링크 태그이다
+- **router-link to="경로"** 를 적어주면 된다
+```
+    <div id="app">
+        <!-- router-link 태그는 페이지 이동을 위한 링크 태그이다 -->
+        <div>
+            <router-link to="/login">Login</router-link>
+            <router-link to="/main">Main</router-link>
+        </div>
+
+        <!-- 페이지 url이 이동(변경)되었을 때 그 url에 따라서 변경되는 영역  -->
+        <router-view></router-view>
+    </div>
+```
+- router-link 태그는 html 페이지에서는 **< a href="/login" > Login < /a >** 로 보여지게 된다
+![6-4-1](./_images/6-4-img1.png)
