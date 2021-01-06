@@ -1802,10 +1802,12 @@ Responese 가 어떤 식으로 구조화가 되서 오는 지 Preview 탭에서 
         })
     ```
     ![8-2-1](./_images/8-2-img1.png)
-    
-    <br />
-    
-    3. 클래스를 추가해보려고 한다
+
+<br />
+
+### 8.3. 클래스 바인딩, v-if, v-show
+- **클래스 바인딩(v-bind 디렉티브)**
+    1. 클래스를 추가해보려고 한다
     ```
         <div id="app">
             <p v-bind:id="uuid" v-bind:class="name">{{ num }}</p>
@@ -1820,8 +1822,91 @@ Responese 가 어떤 식으로 구조화가 되서 오는 지 Preview 탭에서 
             },
         })
     ```
-    4. [뷰 개발자도구] data 속성에 추가한 uuid, name 속성 객체를 확인할 수 있다
+    2. [뷰 개발자도구] data 속성에 추가한 uuid, name 속성 객체를 확인할 수 있다
     ![8-2-2](./_images/8-2-img2.png)
 
-    5. html 화면 페이지에서 id와 클래스가 추가된 것을 확인할 수 있다
+    3. html 화면 페이지에서 id와 클래스가 추가된 것을 확인할 수 있다
     ![8-2-3](./_images/8-2-img3.png)
+
+- **디렉티브 v-if**
+    1. 로그인 하기 전에 Loaing ..<br />
+       로그인을 하면 test user haas 상태 메세지가 보이게 적용하려 한다
+    ```
+    <div id="app">
+        <div>
+            Loading...
+        </div>
+        <div>
+            test user haas been loggen in
+        </div>
+    </div>
+    ```
+
+    2. 로그인 전, 로그인 후의 v-if 조건을 적용한다
+        - loading: true &nbsp;=> Loading...
+        - loading: false => test user haas been loggen in
+    ```
+    <div id="app">
+        <div v-if="loading">
+            Loading...
+        </div>
+        <div v-else>
+            test user haas been loggen in
+        </div>
+    </div>
+    ```
+    ```
+        new Vue({
+            el: '#app',
+            data: {
+                loading: true,
+            },
+        })
+    ```
+
+    3. [뷰 개발자 도구] loading 부분을 체크(true), 해제(false) 하면<br />
+    문구 부분이 바뀌는 것을 확인할 수 있다
+        - true
+        ![8-3-1](./_images/8-3-img1.png)
+        - false
+        ![8-3-2](./_images/8-3-img2.png)
+
+    4.  특정 태그에 조건에 따라서 보여주냐? 보여주지 않느냐? 에 대해서 활용하면 된다
+
+<br />
+
+- **디렉티브 v-show**
+    1. v-if 와 동일하게 loading 적용을 해준다
+    ```
+        <div id="app">
+            <div v-if="loading">
+                Loading...
+            </div>
+            <div v-else>
+                test user haas been loggen in
+            </div>
+            <div v-show="loading">
+                Loading...
+            </div>
+        </div>
+    ```
+    ```
+        new Vue({
+            el: '#app',
+            data: {
+                loading: true,
+            },
+        })
+    ```
+    2. loading 값이 true 일 땐 v-if 와 v-show 모두 Loading... 이 보여진다
+    ![8-3-3](./_images/8-3-img3.png)
+
+    3. loaading 값을 false로 했을 때 v-if 와 v-show 의 차이를 알 수 있다
+    ![8-3-4](./_images/8-3-img4.png)
+    
+    4. **v-if** 경우, **조건에 맞지 않는 영역은 DOM의 정보가 없다**<br />
+    **v-show** 경우, display: none 으로 스타일 값이 적용되어<br />
+    **육안 상으로만 보이질 않고 DOM 의 정보는 남아 있게** 된다
+    ![8-3-5](./_images/8-3-img5.png)
+
+<br />
