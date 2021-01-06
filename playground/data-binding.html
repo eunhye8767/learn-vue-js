@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>data-binding</title>
+</head>
+<body>
+    <div id="app">
+        {{ str }}
+        <p>{{ num }}</p>
+        <p>{{ doubleNum }}</p>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                str: 'hi',
+                num: 10
+            },
+            // 데이터의 값에 따라서 바뀐 값을 정의할 때 computed 속성을 이용한다
+            computed: {
+                doubleNum: function() {
+                    return this.num * 2;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

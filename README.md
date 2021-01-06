@@ -1691,3 +1691,58 @@ Responese 가 어떤 식으로 구조화가 되서 오는 지 Preview 탭에서 
 ![7-5-11](./_images/7-5-img11.png)
 
 <br /><br /><br />
+
+##  8. 템플릿 문법 - 기본
+뷰의 템플릿 문법이란 뷰로 화면을 조작하는 방법을 의미한다<br />
+템플릿 문법은 크게 데이터 바인딩과 디렉티브로 나뉜다
+
+### 8.1. 데이터 바인딩과 computed 속성
+- **데이터 바인딩**
+    1. 뷰 인스턴스에서 정의한 속성들을 화면에 표시하는 방법
+    2. 가장 기본적인 데이터 바인딩 방식은 콧수염 괄호(Mustache Tag) => {{ }}
+    3. 데이터 바인딩 {{ }} 을 코드로 작성해본다
+    ```
+        <div id="app">
+            {{ str }}
+        </div>
+        
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    str: 'hi'
+                }
+            })
+        </script>
+    ```
+    4. 브라우저 화면서 hi 로 출력이 되고 <br />
+    [뷰 개발자도구] Root 에서 data - str 속성값 hi 확인 가능
+    ![8-1-1](./_images/8-1-img1.png)
+
+- **computed 속성**
+    1. doubleNum 을 만들고, 그 값은 num 값의 2배로 적용하려고 한다
+    2. 이 때, **기존 data 속성의 값에 따라 바뀐 값을 정의**할 때 **computed 속성을 이용**한다
+    ```
+        <div id="app">
+            <p>{{ num }}</p>
+            <p>{{ doubleNum }}</p>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    num: 10
+                },
+                computed: {
+                    doubleNum: function() {
+                        return this.num * 2;
+                    }
+                }
+            })
+        </script>
+    ```
+    ![8-1-2](./_images/8-1-img2.png)
+
+<br />
