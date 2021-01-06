@@ -9,7 +9,7 @@
 <body>
     <div id="app">
         {{ str }}
-        <p>{{ num }}</p>
+        <p v-bind:id="uuid" v-bind:class="name">{{ num }}</p>
         <p>{{ doubleNum }}</p>
     </div>
     
@@ -19,7 +19,9 @@
             el: '#app',
             data: {
                 str: 'hi',
-                num: 10
+                num: 10,
+                uuid: 'abc1234',
+                name: 'text-blue'
             },
             // 데이터의 값에 따라서 바뀐 값을 정의할 때 computed 속성을 이용한다
             computed: {

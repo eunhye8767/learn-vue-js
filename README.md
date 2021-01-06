@@ -1746,3 +1746,82 @@ Responese 가 어떤 식으로 구조화가 되서 오는 지 Preview 탭에서 
     ![8-1-2](./_images/8-1-img2.png)
 
 <br />
+
+### 8.2. 뷰 디렉티브와 v-bind
+- **디렉티브**
+    - 디렉티브는 뷰로 화면의 요소를 더 쉽게 조작하기 위한 문법 <br />
+    (v- 가 붙는 특수한 속성들을 의미)
+    - 화면 조작에서 자주 사용되는 방식들을 모아 디렉티브 형태로 제공하고 있다<br />
+    예를 들어 아래와 같이 특정 속성 값에 따라 화면의 영역을 표시하거나 표시하지 않을 수 있다
+    - **예시 1** : show라는 데이터 속성 값에 따라 <br />
+    Vue.js 텍스트가 출력되거나 되지 않는 코드
+    ```
+        <div>
+            Hello <span v-if="show">Vue.js</span>
+        </div>
+    ```
+    ```
+        new Vue({
+            data: {
+                show: false
+            }
+        })
+    ```
+
+    - **예시 2** : v-for 디렉티브를 활용하면 데이터 속성의 개수만큼<br />
+    화면의 요소를 반복하여 출력할 수 있다. <br />
+    목록을 표시해야 할 때 유용하게 사용할 수 있는 기능
+    ```
+        <ul>
+            <li v-for="item in items">{{ item }}</li>
+        </ul>
+    ```
+    ```
+        new Vue({
+            data: {
+                items: ['shirts', 'jeans', 'hats']
+            }
+        })
+    ```
+    - 이외에도 자주 사용되는 디렉티브는 v-bind, v-on, v-model
+
+- **디렉티브 v-bind**
+    1. v-bind (연결하겠다)
+    2. **id** 에 binding 하겠다. 즉, data - **uuid 값을 연결**하겠다
+    ```
+        <div id="app">
+            <p v-bind:id="uuid">{{ num }}</p>
+        </div>
+    ```
+    ```
+        new Vue({
+            el: '#app',
+            data: {
+                uuid: 'abc1234'
+            },
+        })
+    ```
+    ![8-2-1](./_images/8-2-img1.png)
+    
+    <br />
+    
+    3. 클래스를 추가해보려고 한다
+    ```
+        <div id="app">
+            <p v-bind:id="uuid" v-bind:class="name">{{ num }}</p>
+        </div>
+    ```
+    ```
+        new Vue({
+            el: '#app',
+            data: {
+                uuid: 'abc1234',
+                name: 'text-blue'
+            },
+        })
+    ```
+    4. [뷰 개발자도구] data 속성에 추가한 uuid, name 속성 객체를 확인할 수 있다
+    ![8-2-2](./_images/8-2-img2.png)
+
+    5. html 화면 페이지에서 id와 클래스가 추가된 것을 확인할 수 있다
+    ![8-2-3](./_images/8-2-img3.png)
