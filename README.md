@@ -1910,3 +1910,49 @@ Responese 가 어떤 식으로 구조화가 되서 오는 지 Preview 탭에서 
     ![8-3-5](./_images/8-3-img5.png)
 
 <br />
+
+### 8.4. 모르는 문법이 나왔을 때 공식 문서를 보고 해결하는 방법
+- 공식문서 : https://vuejs.org/
+- 한글버전 : https://kr.vuejs.org/v2/guide/index.html
+
+<br />
+
+- **TODO: 인풋 박스를 만들고 입력된 값을 P 태그에 출력해보기**
+    1. 태그 코드를 작성한다
+    ```
+        <input type="text">
+        <p></p>
+    ```
+    2. 인풋박스를 만들고 입력된 값을 p 태그에 출력하는 기능을 모르기 때문에<br />
+    https://vuejs.org/ 사이트에 접속하여 해당 태그를 검색해본다
+        - 인풋 박스를 만들어야 하기 때문에 **input 을 검색**한다
+        ![8-4-1](./_images/8-4-img1.png)
+
+    3. 검색해서 들어가면 text에 관한 코드를 확인할 수 있다
+    ![8-4-2](./_images/8-4-img2.png)
+
+    4. vuejs.org 사이트에 입력된 코드를 참고하여 data 속성에 message 속성을 추가한다<br />
+    [뷰 개발자도구] 에서 message가 빈 공란으로 추가된 것을 확인할 수 있다
+    ```
+        data: {
+            message: '',
+        },
+    ```
+    ![8-4-3](./_images/8-4-img3.png)
+
+    5. input 태그에 v-model="message" 연결해준다
+    ```
+        <input type="text" v-model="message">
+        <p></p>
+    ```
+
+    6. html 페이지에서 input에 값을 입력하면<br />
+    [뷰 개발자도구] message에 값이 적용되는 것을 확인할 수 있다
+    ![8-4-4](./_images/8-4-img4.png)
+
+    7. p 태그에 데이터바인딩을 통해 message 를 입력해주면<br />
+    input에 입력된 값이 p 태그에 노출된다
+    ![8-4-5](./_images/8-4-img5.png)
+
+- vuejs.org 사이트에서 최대한 검색을 많이 해보기
+- vuejs.org 사이트에서 Learn > Guide, API 등을 많이 찾아본다
