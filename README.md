@@ -1158,3 +1158,388 @@ URL 값이 /login 과 /home 일 때 각각 로그인 컴포넌트와  홈 컴포
 ```
 - router-link 태그는 html 페이지에서는 **< a href="/login" > Login < /a >** 로 보여지게 된다
 ![6-4-1](./_images/6-4-img1.png)
+
+<br /><br /><br />
+
+##  7. HTTP 통신 라이브러리 - axios(액시오스)
+### 7.1. HTTP 라이브러리와 Ajax 그리고 Vue Resource
+**HTTP 라이브러리와 Ajax**<br />
+- Ajax(Asynchronous Javascript and XML, 에이잭스)는 비동기적 웹 애플리케이션의 제작
+- 특정 데이터만 서버에 요청하여 받아올 수 있다
+- 뷰 라우터 라던지 싱글 페이지 웹 애플리케이션이 구현하기 쉬워졌다
+- ex. jQuery.ajax()
+
+<br />
+
+**Vue Resource**<br />
+- pagekit/vue-resource : <br />
+2,3년전 공식 라이브러리 였지만 vue 창지자 에반뉴가 공식 라이브러리로 관리하지 않겠다고 발표했다
+- 현재는 공식 라이브러리로 지정되지 않은 상태로 추후 작업할 때 참고해야 한다
+- 샘플들을 볼 때 구 버전일 확률로 주의해서 사용해야 한다
+
+<br />
+
+### 7.2. axios  소개 및 오픈소스를 사용하기 전에 알아야 할 것들
+**7.2.1 axios(액시오스)**
+뷰에서 권고하는 HTTP 통신 라이브러리는 액시오스(Axios).<br />
+**Promise 기반의 HTTP 통신 라이브러리**이며 상대적으로 다른 HTTP 통신 라이브러리들에 비해<br />
+**문서화가 잘되어 있고 API가 다양**하다
+- https://github.com/axios/axios<br />
+또는 구글에서 axios github 검색
+
+- 오픈소스(github)을 이용할 때 참고할 점
+    - Star : 페이스북의 좋아요와 같은 기능 (인지도를 확인할 수 있다)
+    - commits :작업 이력 확인
+    - contributors : 수정/보완을 하기 위해 몇 명의 사람들이 동참했는 지 확인 가능
+    - 최신 수정 날짜도 확인을 한다
+
+    ![7-2-1](./_images/7-2-img1.png)
+
+- **비동기 처리 :** <br />
+자바스크립트의 비동기 처리란 특정 코드의 연산이 끝날 때까지 코드의 실행을 멈추지 않고<br />
+다음 코드를 먼저 실행하는 자바스크립트의 특성을 의미한다
+
+<br />
+
+- **자바스크립트의 비동기 처리 패턴**
+    1. callback
+    2. promise
+    3. promise + generator
+    4. async & await
+
+<br />
+
+- **promise :** javascript 의 비동기적 처리 방법
+    - "A promise is an object that may produce a single value some time in the future"
+    - 프로미스 : 자바스크립트 비동기 처리에 사용되는 객체<br />
+    - 프로미스 : 주로 서버에서 받아온 데이터를 화면에 표시할 때 사용한다<br />
+    - **프로미스의 3가지 상태(states)**
+        - Pending(대기) : 비동기 처리 로직이 아직 완료되지 않은 상태
+        - Fulfilled(이행) : 비동기 처리가 완료되어 프로미스가 결과 값을 반환해준 상태 (=완료)
+        - Rejected(실패) : 비동기 처리가 실패하거나 오류가 발생한 상태
+
+<br />
+
+- **여러 개의 프로미스 연결하기 (Promise Chaining) :**<br />
+프로미스의 또 다른 특징은 여러 개의 프로미스를 연결하여 사용할 수 있다<br />
+then() 메서드를 호출하고 나면 새로운 프로미스 객체가 반환된다
+```
+    function getData() {
+        return new Promise({
+            // ...
+        });
+    }
+
+    // then() 으로 여러 개의 프로미스를 연결한 형식
+    getData()
+        .then(function(data) {
+            // ...
+        })
+        .then(function() {
+            // ...
+        })
+        .then(function() {
+            // ...
+        });
+```
+<br />
+
+- **실무에서 있을 법한 프로미스 연결 사례**
+    - 실제 웹 서비스에서 있을 법한 사용자 로그인 인증 로직에 프로미스를 여러 개 연결해보았다
+    ```
+        getData(userInfo)
+            .then(parseValue)
+            .then(auth)
+            .then(diaplay);
+    ```
+    - 위 코드는 페이지에 입력된 사용자 정보를 받아와 파싱, 인증 등의 작업을 거치는 코드를 나타낸다<br />>
+    여기서 userInfo는 사용자 정보가 담긴 객체를 의미하고, parseValue, auth, display는 각각 프로미스를 반환해주는 함수라고 가정한다
+    ```
+        var userInfo = {
+            id: 'test@abc.com',
+            pw: '****'
+        };
+
+        function parseValue() {
+            return new Promise({
+                // ...
+            });
+        }
+        function auth() {
+            return new Promise({
+                // ...
+            });
+        }
+        function display() {
+            return new Promise({
+                // ...
+            });
+        }
+    ```
+    - **여러 개의 프로미스를 .then()으로 연결하여 처리**할 수 있다
+
+<br />
+
+- **프로미스의 에러 처리 방법**
+    - 실제 서비스를 구현하다 보면 네트워크 연결, 서버 문제 등으로 인해 오류가 발생할 수 있다<br />
+    따라서, 프로미스의 에러 처리 방법에 대해서도 알고 있어야 한다
+    - 에러 처리 방법에는 다음과 같이 2가지 방법이 있다
+        1. then()의 두 번째 인자로 에러를 처리하는 방법
+        ```
+        getData().then(
+            handleSuccess,
+            handleError
+        );
+        ```
+        2. catch()를 이용하는 방법
+        ```
+            getData().then().catch();
+        ```
+        3. 위 2가지 방법 모두 프로미스의 reject() 메서드가 호출되어 실패 상태가 된 경우에 실행된다<br />
+        간단하게 말해서 프로미스의 로직이 정상적으로 돌아가지 않는 경우 호출된다
+        ```
+            function getData() {
+                return new Promise(function(resolve, reject) {
+                    reject('failed');
+                });
+            }
+
+            // 1. then()의 두 번째 인자로 에러를 처리하는 코드
+            getData().then(function() {
+                // ...
+            }, function(err) {
+                console.log(err);
+            });
+
+            // 2. catch()로 에러를 처리하는 코드
+            getData().then().catch(function(err) {
+                console.log(err);
+            });
+        ```
+<br />        
+
+- **프로미스 에러 처리는 가급적 catch()를 사용**
+    - 개인의 코딩 스타일에 따라서 then()의 두 번째 인자로 처리할 수도 있고 catch()로 처리할 수도 있겠지만<br />
+    **가급적 catch()로 에러를 처리하는 게 더 효율적**이다<br />
+
+    1. catch() 코드를 써야 하는 이유 - 아래 코드 참고
+    ```
+        // then()의 두 번째 인자로는 감지하지 못하는 오류
+        function getData() {
+            return new Promise(function(resolve, reject) {
+                resolve('hi');
+            });
+        }
+
+        getData().then(function(result) {
+            console.log(result);
+            throw new Error("Error in then()"); // Uncaught (in promise) Error: Error in then()
+        }, function(err) {
+            console.log('then error : ', err);
+        });
+    ```
+
+    2. getData() 함수의 프로미스에서 resolve() 메서드를 호출하여 정상적으로 로직을 처리했지만,<br /> 
+    then()의 첫 번째 콜백 함수 내부에서 오류가 나는 경우 오류를 제대로 잡아내지 못 한다<br />
+    따라서 코드를 실행하면 아래와 같은 오류가 난다
+
+    ![7-2-2](./_images/7-2-img2.png)
+
+    3. 하지만 똑같은 오류를 catch()로 처리하면 다른 결과가 나온다
+    ```
+        // catch()로 오류를 감지하는 코드
+        function getData() {
+            return new Promise(function(resolve, reject) {
+                resolve('hi');
+            });
+        }
+
+        getData().then(function(result) {
+            console.log(result); // hi
+            throw new Error("Error in then()");
+        }).catch(function(err) {
+            console.log('then error : ', err); // then error :  Error: Error in then()
+        });
+    ```
+    4. 위 코드의 처리 결과는 다음과 같다
+    ![7-2-3](./_images/7-2-img3.png)
+
+    5. **따라서, 더 많은 예외 처리 상황을 위해 프로미스의 끝에 가급적 catch()를 사용해야 한다**
+
+<br />
+
+- **async & await**
+    - async와 await는 자바스크립트의 비동기 처리 패턴 중 가장 최근에 나온 문법이다<br />
+    기존의 비동기 처리 방식인 콜백 함수와 프로미스의 단점을 보완하고 개발자가 읽기 좋은 코드를 작성할 수 있게 도와준다
+
+<br />
+
+### 7.3. axios 실습 및 this 설명
+- get user 버튼 클릭 시 **getData 메서드 실행**
+- 샘플 데이터 정보(10개의 사용자 정보가 담긴 객체 배열) : https://jsonplaceholder.typicode.com/users/
+    - jsonplaceholder : 자바스크립트로 api를 요청할 때 테스트해볼 수 있는 사이트
+- 샘플 데이터를 받아올 때 **성공하면 then 진입** / **실패하면 catch 를 진입**
+- **then, catch 개념은 promise 에서 이해**해야 한다
+```
+    <div id="app">
+        <button v-on:click="getData">get user</button>
+    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    new Vue({
+        el: '#app',
+        methods: {
+            getData: function() { 
+            axios.get('https://jsonplaceholder.typicode.com/users/')
+                .then(function(response) {
+                    console.log(response);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+            }
+        }
+    })
+  </script>
+```
+- 서버에서 받아온 데이터 결과물 <br />
+    - 액시오스에서의 일반적인 구조 
+        1. config 속성
+        2. data 속성 : data 영역을 보면 사용자 정보 10개가 보여진다
+        3. headers 속성
+        4. request 속성
+![7-3-1](./_images/7-3-img1.png)
+
+<br />
+
+- data 정보만 보고싶을 경우 console.log(response.data); 로 확인할 수 있다
+```
+    new Vue({
+        el: '#app',
+        methods: {
+            getData: function() { 
+            axios.get('https://jsonplaceholder.typicode.com/users/')
+                .then(function(response) {
+                    console.log(response.data);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+            }
+        }
+    })
+```
+![7-3-2](./_images/7-3-img2.png)
+
+<br />
+
+- response.data 정보를 화면에 출력하고자 한다
+    1. Vue 인스턴스에 data 속성 객체를 추가하고 users 빈 배열 객체를 추가한다
+    ```
+        new Vue({
+            el: '#app',
+            data: {
+                users: []
+            },
+        })
+    ```
+    ![7-3-3](./_images/7-3-img3.png)
+    
+    <br />
+
+    2. this 를 사용하여 data - users에 정보를 전달 해야 하는데<br />
+    해당 위치의 this가 무엇을 가리키는 지는 console.log(this)로 확인을 해본다
+        - A this 와 B this 는 가리키는 것이 다르다. <br />
+        A this 는 Vue 인스턴스 를 가리키지만 B this 는 수시로 바뀌게 된다<br />
+        따라서 B this 가 가리키는 것이 A this 와 동일하게 하고자 한다면 <br />
+        A this 를 변수로 선언해줘야 한다
+    ```
+        new Vue({
+            el: '#app',
+            data: {
+                users: []
+            },
+            methods: {
+                getData: function() { 
+                    console.log('A'+this);
+                    axios.get('https://jsonplaceholder.typicode.com/users/')
+                        .then(function(response) {
+                            console.log('B'+this);
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                }
+            }
+        })
+    ```
+
+    3. A this 를 변수 vm 으로 선언한다
+    ```
+        new Vue({
+            el: '#app',
+            data: {
+                users: []
+            },
+            methods: {
+                getData: function() { 
+                    var vm = this;
+                    axios.get('https://jsonplaceholder.typicode.com/users/')
+                        .then(function(response) {
+                            console.log(response.data);
+                            vm.users = response.data;
+                        })
+                        .catch(function(error) {
+                            console.log(error);
+                        });
+                }
+            }
+        })
+    ```
+
+    4. [뷰 개발자 도구] get user 버튼을 클릭하면<br />
+    Root - data > users 속성에 사용자 정보가 추가된 것을 확인할 수 있다
+    ![7-3-4](./_images/7-3-img4.png)
+
+
+    5. Root 에서 받아온 users 정보를 화면에 출력하고자 할 땐<br />
+    div 안에 {{ users }} 를 적용해준다
+    ```
+        <div id="app">
+            <button v-on:click="getData">get user</button>
+            <div>
+                {{ users }}
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    users: []
+                },
+                methods: {
+                    getData: function() { 
+                        var vm = this;
+                        axios.get('https://jsonplaceholder.typicode.com/users/')
+                            .then(function(response) {
+                                console.log(response.data);
+                                vm.users = response.data;
+                            })
+                            .catch(function(error) {
+                                console.log(error);
+                            });
+                    }
+                }
+            })
+        </script>
+    ```
+    
+    6. get user 버튼을 클릭하면 [] -> [사용자정보] 를 확인할 수 있다
+    ![7-3-5](./_images/7-3-img5.png)
+
+    
