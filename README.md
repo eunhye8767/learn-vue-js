@@ -2000,3 +2000,116 @@ Responese 가 어떤 식으로 구조화가 되서 오는 지 Preview 탭에서 
 
 <br /><br /><br />
 
+##  9. 템플릿 문법 - 실전
+### 9.1. watch 속성
+- **9.1.1 watch 속성**<br />
+watch 속성은 **특정 데이터의 변화를 감지하여 자동으로 특정 로직을 수행**해주는 속성이다
+    - **watch 코드 형식**
+        - message라는 데이터에 watch 속성을 지정한 코드
+        - message의 데이터가 변할 때마다 watch 속성에 정의한 message 함수가 실행되면서 콘솔에 변한 데이터를 출력한다
+    ```
+    new Vue({
+        data() {
+            return {
+                message: 'Hello'
+            }
+        },
+        watch: {
+            message: function(value, oldValue) {
+                console.log(value);
+            }
+        }
+    })
+    ```
+    - **watch 실용 문법**<br />
+        **1. watch 속성에 메서드 함수를 연결** <br />
+        : watch 대상 속성에 함수를 연결하는 대신 메서드 함수를 연결할 수 있다
+        ```
+            new Vue({
+                data() {
+                    return {
+                        message: 'Hello'
+                    }
+                },
+                methods: {
+                    logMessage() {
+                        console.log(this.message);
+                    }
+                },
+                watch: {
+                    'message': 'logMessage' // 대상 속성과 메서드 함수를 매칭
+                }
+            })
+        ```
+        **2. 핸들러와 초기 실행 옵션**<br />
+        : watch 대상 속성에 아래와 같이 handler()와 immediate 속성을 정의할 수 있다
+        ```
+        new Vue({
+            data() {
+                return {
+                    message: 'Hello'
+                }
+            },
+            watch: {
+                'message': {
+                    handler(value, oldValue) {
+                        console.log(value);
+                },
+                immediate: true // 컴포넌트가 생성되자마자 즉시 실행
+                }
+            }
+        })
+
+<br />
+
+- **9.1.2 watch 강의 실습**
+    1. increase 버튼을 클릭하면 숫자가 1씩 증가한다 (초기값 10)
+    ```
+        <div id="app">
+            {{ num }}
+            <button v-on:click="addNum">increase</button>
+        </div>
+    ```
+    ```
+        new Vue({
+            el: '#app',
+            data: {
+                num: 10,
+            },
+            methods: {
+                addNum: function() {
+                    this.num = this.num + 1;
+                },
+            }
+        })
+    ```
+    <br />
+
+    2. 숫자가 증가하면(addNum 함수 실행) logText 함수가 실행되게 하려고 한다
+        - 숫자가 증가할 때마다 log "changed" 를 출력해야하는데,<br />
+        이 때 쓸 수 있는 기능이 **watch**
+        - **watch** : 기본적으로 data 속성을 넣을 수 있고 data의 변화에 따라서 특정 로직을 실행시킬 수 있다
+        - data 속성의 num 이 증가하면 logText 함수를 실행시켜야 하기 때문에<br />
+        watch 속성에 num:function() 함수를 추가한다
+    ```
+        new Vue({
+            el: '#app',
+            data: {
+                num: 10,
+            },
+            watch: {
+                num: function() {
+                    this.logText();
+                }
+            },
+            methods: {
+                addNum: function() {
+                    this.num = this.num + 1;
+                },
+                logText: function() {
+                    console.log('changed');
+                }
+            }
+        })
+    ```
+    ![9-5-1](./_images/9-5-img1.png)
