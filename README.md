@@ -2349,3 +2349,22 @@ watch 보다는 computed가 대부분의 케이스에 적합하다 라고 명시
 ![10-1-2](./_images/10-1-img3.png)
 
 <br />
+
+### 10.2. Vue CLI 도구 설치할 때 문제점 해결 방법
+**1. permission 에러**<br />
+: npm install에서 -g(글로벌)이라고 하는 명령어를 입력했을 때<br /> 
+설치하는 라이브러리가 위치하는 폴더에 파일 쓰기 권한이 없기 때문에 에러가 발생한다
+- 기존 npm install -g @vue/cli 앞에 **sudo** 추가 입력해준다
+```
+    sudo npm install -g @vue/cli
+```
+<br />
+
+**2. Where does npm install packages? (npm 패키지를 어디에 설치해야 하는 지?)**<br />
+- 스택오버 플로우글 참고(질문/답변 참고)<br />
+https://stackoverflow.com/questions/5926672/where-does-npm-install-packages
+- Windows XP : %USERPROFILE%\AppData\npm\node_modules
+- Windows 7, 8 and 10 : %USERPROFILE%\AppData\Roaming\npm\node_modules
+- MAC : /usr/local/lib/node_modules
+
+<br />
