@@ -2237,3 +2237,77 @@ watch 보다는 computed가 대부분의 케이스에 적합하다 라고 명시
     ```
 
 <br />
+
+### 9.3. computed 속성을 이용한 클래스 코드 작성 방법
+- v-bind 디렉티브를 이용해 class 를 아래처럼 연결하는 방법도 있지만<br />
+클래스를 넣을 때 여러가지 조건을 넣을 수도 있다
+```
+    <div id="app">
+        <p v-bind:class="cname">Hello</p>
+    </div>
+```
+```
+    new Vue({
+        el: '#app',
+        data: {
+            cname: 'blue-text',
+            isError: false
+        }
+    });
+```
+- data 속성에 isError 값에 따라서 클래스를 넣거나 넣지 않거나 조건을 설정한다
+- v-bine:class="{클래스이름: data - 속성(조건값)}"<br />
+**v-bind:class="{ warning: isError }"**
+```
+    <style>
+        .warning {
+            color: red;
+        }
+    </style>
+```
+```
+    <div id="app">
+        <!-- <p v-bind:class="cname">Hello</p> -->
+        <p v-bind:class="{ warning: isError }">Hello</p>
+    </div>
+```
+```
+    new Vue({
+        el: '#app',
+        data: {
+            // cname: 'blue-text',
+            isError: false
+        }
+    });
+```
+- isError 값이 true 일 때는 warning 클래스 추가 
+![9-3-1](./_images/9-3-img1.png)
+- isError 값이 false 일 때는 warning 클래스 미추가
+![9-3-2](./_images/9-3-img2.png)
+
+- 클래스를 조작하는 { warning: isError } 부분은 <br />
+개발자 입장에서 v-bind:class 에 넣을 필요 없이 computed로 적용하려 한다
+    - v-bind:class="{ warning: isError }" 에서 { warning: isError } 부분을<br />
+    computed 속성 중 errorTextColor 함수로 변경해준다
+    - errorTextColor 는 삼항연산자를 통해 <br />
+    true = "warning" 클래스를 추가, false면 null(클래스 변동X)
+```
+    <div id="app">
+        <p v-bind:class="errorTextColor">Hello</p>
+    </div>
+```
+```
+    new Vue({
+        el: '#app',
+        data: {
+            isError: false
+        },
+        computed: {
+            errorTextColor: function() {
+                return this.isError ? 'warning' : null;
+            }
+        }
+    });
+```
+- isError 값에 따라 errorTextColor 값이 warning 또는 null 로 바뀐다
+![9-3-3](./_images/9-3-img3.png)
