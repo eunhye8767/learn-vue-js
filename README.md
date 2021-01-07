@@ -2311,3 +2311,41 @@ watch 보다는 computed가 대부분의 케이스에 적합하다 라고 명시
 ```
 - isError 값에 따라 errorTextColor 값이 warning 또는 null 로 바뀐다
 ![9-3-3](./_images/9-3-img3.png)
+
+<br /><br /><br />
+
+##  10. 프로젝트 생성 도구 - Vue CLI
+### 10.1. 최신 Vue CLI 소개
+- Vue CLI(공식 문서)<br />
+: https://cli.vuejs.org
+- Vue CLI는 Command line interface 약자로,<br />
+**명령어를 통한 특정 액션을 수행**하는 도구. ( =명령어 실행 보조도구)
+- [Vue CLI 공식문서] Installation 페이지에서처럼 명령어를 통해 설치를 해야한다<br />
+: https://cli.vuejs.org/guide/installation.html
+
+<br />
+
+- **Vue CLI 설치하기 전 확인해야될 사항**
+    1. VS Code에서 터미널 > 새터미널을 연다 
+    2. 그리고 **node-v 명령어를 입력**하여 현재 버전을 확인해야 한다<br />
+    (**10번대 이상, LTS 버전을 꼭 설치**해야 한다)
+    ![10-1-1](./_images/10-1-img1.png)
+    3. **npm-v 명령어를 입력**하여 npm 버전도 확인해야 한다<br />
+    (**6번대 버전이 설치**되어야 한다)
+    ![10-1-2](./_images/10-1-img2.png)
+
+<br />
+
+- 위처럼 **터미널을 통해 버전이 맞는 지 확인 후에 Vue CLI**를 공식문서를 참고하여 설치한다
+- VS Code에서 npm install -g @vue/cli 으로 설치한다
+```
+    npm install -g @vue/cli
+    # OR
+    yarn global add @vue/cli
+```
+
+- 설치가 완료되면 **@vue/cli@버전** 을 확인할 수 있다<br />
+(CLI 4버전대로 설치했다는 것을 알 수 있다)
+![10-1-2](./_images/10-1-img3.png)
+
+<br />
