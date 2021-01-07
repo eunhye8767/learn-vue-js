@@ -2368,3 +2368,80 @@ https://stackoverflow.com/questions/5926672/where-does-npm-install-packages
 - MAC : /usr/local/lib/node_modules
 
 <br />
+
+### 10.3 CLI 버전 차이, 프로젝트 생성&서버실행
+- **VS Code에서 터미널 bash 로 변경하는 방법**
+    1. git bash가 설치되어 있다는 가정하에 진행한다
+    2. 설정 검색 칸에 "terminal.integrated.shell.windows" 입력
+    ![10-3-1](./_images/10-3-img1.png)
+    3. "settings.json에서 편집" 클릭
+    4. "terminal.integrated.shell.windows" 부분에<br />
+    **"C:\\Program Files\\Git\\bin\\bash.exe"** 적어준다
+    (git bash 경로가 맞는 지 한 번 확인 후 적용)
+    ![10-3-2](./_images/10-3-img2.png)
+    5. 터미널 > 새터미널을 열어 bash 로 바뀌었는 지 확인한다
+    ![10-3-3](./_images/10-3-img3.png)
+    6. "powershell" 로 되어있을 경우 오류 발생<br />
+    "bash" 로 바꾼 후 vue --version 입력을 하면 설치된 cli 버전을 확인할 수 있다 
+    ![10-3-4](./_images/10-3-img4.png)
+    7. 관련 글 참고 : https://mishka.kr/2019/06/24/vscode-gitbash/
+
+
+- **[Vue CLI 2.x]**
+    - 예) webpack-simple : github에 있는 특정 레파지토리 다운로드 
+```
+    vue init '프로젝트 템플릿 유형' '프로젝트 폴더 위치'
+    vue init webpack-simple '프로젝트 폴더 위치'
+```
+
+<br />
+
+- **[Vue CLI 3.x] 이상 버전**
+    - init > **create 명령어로 바뀌**었고 폴더위치만 지정해주면 된다.
+    - 프로젝트 템플릿 유형이 사라진 이유는 Vue CLI는 플러그인 기반이라던지 이런 식의 어떤 차이점이 있어서..
+    - 가장 기본적인 차이라고 생각하면 된다
+    ```
+        vue create '프로젝트 폴더 위치'
+    ```
+
+<br />
+
+- **프로젝트 생성&서버 실행**
+    1. vue create vue-cli 명령어를 입력한다
+    ```
+        vue create vue-cli
+    ```
+    2. 3.x 버전에서는 default(babel, eslint)를 선택하고<br />
+    **4.x 버전에서는 Default([Vue 2] babel, eslint)를 선택**한다
+    ![10-3-5](./_images/10-3-img5.png)
+    3. 설치가 완료가 되면 그 다음 명령어가 터미널에 보여진다
+        - vue-cli 폴더가 생성된 것을 확인할 수 있다
+        - cd : 폴더 이동을 하는 기본 터미널 명령어
+        - npm run serve : npm run serve 명령어를 실행하면<br />
+        vue-cli를 이용해서 프로젝트 서비스를 구현할 수 있는 기본 구성이 갖쳐줬다는 것을 의미한다
+    ```
+        cd vue-cli
+        npm run serve
+    ```
+    ![10-3-6](./_images/10-3-img6.png)
+    
+    <br />
+
+    4. 위의 안내대로 명령어 cd vue-cli를 입력한다.
+        1. cd vue-cli<br />
+        vue-cli 폴더로 이동된 것을 확인할 수 있다.<br />
+        /c/_EH/__git/**learn-vue-js/vue-cli**
+        2. npm run serve
+    ![10-3-7](./_images/10-3-img7.png)
+    
+    <br />
+
+    5. **npm run serve 을 입력**하면 아래와 같은 **Local 사이트를 확인**할 수 있다
+    ![10-3-8](./_images/10-3-img8.png)
+
+    <br />
+
+    6. alt 키를 누르고 로컬사이트 주소를 클릭하면 브라우저에서 확인할 수 있다
+    ![10-3-9](./_images/10-3-img9.png)
+
+<br />
