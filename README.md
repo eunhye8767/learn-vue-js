@@ -2112,4 +2112,128 @@ watch 속성은 **특정 데이터의 변화를 감지하여 자동으로 특정
             }
         })
     ```
-    ![9-5-1](./_images/9-5-img1.png)
+    ![9-1-1](./_images/9-1-img1.png)
+
+<br /><br /><br />
+
+### 9.2. watch 속성 VS computed 속성
+- data 속성에 num : 10
+- computed 속성에 doubleNum 속성에 this.num * 2<br />
+{{ doubleNum }} => num 값에 2배수로 곱해진다<br />
+data에 의존성. 즉, doubleNum 로직이 실행될 때 기본적으로 기준이 되는 값이 data - num 속성
+- watch : watch도 computed와 동일하게 로직이 실행될 때 data - num 값이 기준이 된다
+- **computed 와 watch 차이** (아래 코드 예시 참고)
+    - **computed : 단순한 값에 대한 계산**<br />
+    특히, 밸리데이션. VeeValidate(비밸리데이트)라는 <br />
+    밸리데이션 뷰 라이브러리가 있는데 내부적으로 구현된 것들이<br />
+    밸리데이션 대부분의 computed 속성이 쓰여져 있다<br />
+    단순한 텍스트의 입력을 받아서 <br />
+    거기에 대한 밸리데이션 값을 계산하는 것은 computed를 많이 사용하고 있다
+    - **watch : 실제로 무거운 로직들**<br />
+    무거운 로직이라고 하면, 매번 실행되는게 부담스러운 로직이라고 생각하면 된다
+    (예, 아래 코드 "this.fetchUserByNumber"는 num 값에 따라서 데이터를 불러오는 로직)
+```
+    <div id="app">
+        {{ num }}
+    </div>
+```
+```
+    new Vue({
+        el: "#app",
+        data: {
+            num: 10,
+        },
+        computed: {
+            doubleNum: function () {
+                return this.num * 2;
+            },
+        },
+        watch: {
+            num: function (newValue) {
+                this.fetchUserByNumber(newValue);
+            },
+        },
+        methods: {
+            fetchUserByNumber: function (num) {
+                console.log(num);
+                // axios.get(num);
+            },
+        },
+    });
+```
+- [뷰 개발자도구] Root 선택 시 data - num / computed - doubleNum 값을 확인할 수 있다
+![9-2-1](./_images/9-2-img1.png)
+
+- [뷰 개발자도구] data - num 값을 더하거나 뺄 때 console에 나오는 부분이 watch에 적용한 로직에 대한 값이다
+![9-2-2](./_images/9-2-img2.png)
+
+- watch 에서는 기본적으로 newValue(1번째)와 oldValue(2번째) 값을 받는다
+    - **oldValue 는 이전의 값, newValue 는 갱신된 값**
+    - watch 라는 것은 계속 추적을 하고 있기 때문에 이전값(oldValue)과 바뀐값(newValue)을 인자로 받을 수 있다
+- 바뀐값(newValue)을 인자로 넘기고 methods(메소드)에서 num 받고 console.log('num')으로 출력해준다
+```
+    watch: {
+        num: function (newValue, oldValue) {
+            this.fetchUserByNumber(newValue);
+        },
+    },
+```
+- 만약 받은 num 값으로 데이터를 요청(axios.get)했더라면 watch에 가장 의미에 적합한 데이터 로직이라고 생각한다
+```
+    methods: {
+        fetchUserByNumber: function (num) {
+            axios.get(num); // 예시용 코드
+        },
+    },
+```
+- 정리하자면<br />
+computed 는 "밸리데이션"이라던지, 간단한 텍스트 연산<br />
+watch 는 무거운 동작들, 특히 데이터 요청에 적합. 데이터 요청시 메서드에 있는 내용들을 엮어서 하면 좋을 것 같다
+
+- **vuejs.org 공식문에 따른 watch VS computed**<br />
+공식문서 내용에 따르면 웬만하면 computed를 쓰는 것이 좋고 <br />
+watch 보다는 computed가 대부분의 케이스에 적합하다 라고 명시되어 있다<br />
+    - https://vuejs.org/v2/guide/computed.html#Computed-vs-Watched-Property
+    - computed로 해결될 수 있는데 watch로 쓰게 되면 코드가 너저분하게 될 수 있다
+    - computed가 캐싱이라던지 내부적으로 튜닝이 많이 되어 있기 때문에<br />
+    watch 보다는 computed를 통해서 간단한 값을 계산하는 것들을 추천
+    ```
+    <div id="demo">{{ fullName }}</div>
+    ```
+    - **watch :**
+    ```
+        var vm = new Vue({
+            el: '#demo',
+            data: {
+                firstName: 'Foo',
+                lastName: 'Bar',
+                fullName: 'Foo Bar'
+            },
+            watch: {
+                firstName: function (val) {
+                    this.fullName = val + ' ' + this.lastName
+                },
+                lastName: function (val) {
+                    this.fullName = this.firstName + ' ' + val
+                }
+            }
+        })
+    ```
+    - **computed :**<br />
+    **watch 코드에 비해 간결하게 표현할 수 있다**
+    ```
+        var vm = new Vue({
+            el: '#demo',
+            data: {
+                firstName: 'Foo',
+                lastName: 'Bar'
+            },
+            computed: {
+                fullName: function () {
+                    return this.firstName + ' ' + this.lastName
+                }
+            }
+        })
+    ```
+
+<br />
