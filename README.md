@@ -1956,3 +1956,47 @@ Responese 가 어떤 식으로 구조화가 되서 오는 지 Preview 탭에서 
 
 - vuejs.org 사이트에서 최대한 검색을 많이 해보기
 - vuejs.org 사이트에서 Learn > Guide, API 등을 많이 찾아본다
+
+<br />
+
+### 8.5. methods 속성과 v-on 디렉티브를 이용한 키보드, 마우스 이벤트 처리 방법
+1. 버튼을 만들고 v-on:click 이벤트를 적용하고 logText 메서드를 만든다
+2. logText 클릭하면 log clicked 라는 메세지가 보이게 적용했다
+```
+    <div id="app">
+        <!-- button v-on:click="메서드이름">click me</button -->
+        <button v-on:click="logText">click me</button>
+    </div>
+```
+```
+    new Vue({
+        el: '#app',
+        methods: {
+            logText:function() {
+                console.log('clicked'); 
+            }
+        }
+    })
+```
+
+3. clicke me 버튼을 클릭했을 때 console log "clicked" 가 출력되는 것을 확인할 수 있다
+![8-5-1](./_images/8-5-img1.png)
+
+4. 인풋박스에 keyup 이벤트를 주면 인풋박스에 키를 입력할 때마다 이벤트가 발생한다
+```
+    <input type="text" v-on:keyup="logText">
+```
+![8-5-2](./_images/8-5-img2.png)
+
+5. 인풋박스에 keyup.모디파이어 enter 기능을 적용하면 해당 인풋박스에서 엔터를 누르때마다 이벤트가 발생한다
+    - Modifier 는 keyup 뒤에 . 을 누르고 해당 Modifier(모디파이어) 지정키를 적용하면 된다
+    - enter 외에 esc 등등 지정자들이 있는 공식문서를 확인해보면 알 수 있다
+    - https://vuejs.org/v2/guide/render-function.html#Event-amp-Key-Modifiers
+    - Modifier(모디파이어) 사용 예시 : 인풋에 텍스트를 적고 엔터를 눌렀을 때 검색하는 버튼 실행
+```
+    <input type="text" v-on:keyup.enter="logText">
+```
+![8-5-3](./_images/8-5-img3.png)
+
+<br /><br /><br />
+

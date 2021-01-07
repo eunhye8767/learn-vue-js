@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>methods 메소드</title>
+</head>
+<body>
+
+    <div id="app">
+        <!-- <button v-on:click="메서드이름">click me</button> -->
+        <button v-on:click="logText">click me</button>
+        <input type="text" v-on:keyup="logText">
+        
+        <!--
+            keyup을 했을 때, 뒤에 모디파이어 라는 . 을 누르고 enter 를 쳤을 때만
+            이벤트를 실행하겠다 (= 이벤트 모디파이어)
+            모디파이어 = 엔터, esc 등등 지정자들이 있다
+            공식문서에서 확인필요!! 
+            https://vuejs.org/v2/guide/render-function.html#Event-amp-Key-Modifiers
+        -->
+        <input type="text" v-on:keyup.enter="logText">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        new Vue({
+            el: '#app',
+            methods: {
+                logText:function() {
+                   console.log('clicked'); 
+                }
+            }
+        })
+    </script>
+    
+</body>
+</html>
