@@ -2445,3 +2445,122 @@ https://stackoverflow.com/questions/5926672/where-does-npm-install-packages
     ![10-3-9](./_images/10-3-img9.png)
 
 <br />
+
+### 10.4 CLI로 생성한 프로젝트 폴더 구조 확인 및 main.js 파일 설명
+- CLI 로 생성하면 다음과 같은 폴더와 파일들을 확인할 수 있다<br />
+![10-4-1](./_images/10-4-img1.png)
+<br />
+
+- npm run serve 명령어를 살펴보면,<br />
+npm은 node package manager 약자로 npm이 하는 역활은 *package.json*에서<br />
+라이브러리(dependencies, devDependencies)에 대한 설명을 확인할 수 있다<br />
+![10-4-2](./_images/10-4-img2.png)
+
+- **package.json**
+    - npm run serve 명령어는<br />
+    *package.json*에서 정의되어 있는 serve 라는 명령어<br />
+    scripts 속성 밑에 serve 라는 명령어를 정의할 수 있다<br />
+    ```
+        // vue 에서 미리 잡아놓은 명령어
+        "serve": "vue-cli-service serve",
+    ```
+    ![10-4-3](./_images/10-4-img3.png)
+
+    - npm run serve 명령어를 입력한다는 것은<br />
+    원래 vue-cli-service serve 입력한 것과 동일하다
+
+<br />
+
+- **public/index.html**
+    - npm run serve 명령어를 통해 실행되는 파일<br />
+    (*제일 먼저 살펴봐야 할 파일*)<br />
+    ![10-4-4](./_images/10-4-img4.png)
+
+    - id="app" 을 가진 div 태그와<br />
+    built files~ 주석을 확인할 수 있다
+    ```
+        <div id="app"></div>
+        <!-- built files will be auto injected -->
+    ```
+    ![10-4-5](./_images/10-4-img5.png)
+
+    - **주석의 의미** : 빌드된 파일들이 자동으로 추가된다<br />
+    src 폴더 밑에 정의해둔 main.js , App.vue 등등 여러가지 파일들을<br />
+    다 종합해서 최소한의 파일로 변환하여 묶어서 해당 주석에 적용을 해준다<br />
+    *※ 내부적으로 웹팩(webpack)이 적용되어 있어 추후 웹팩에 대해 학습 필요!*
+
+<br />
+
+- **src/main.js**
+    1. main.js 파일<br />
+    ![10-4-6](./_images/10-4-img6.png)
+
+    2. **$mount('#app')** == **el: '#app'**<br />
+    $mount()는 el과 동일한 역활을 한다
+    ```
+        new Vue({
+
+        }).$mount('#app')
+    ```
+    ```
+        new Vue({
+            el: '#app'
+        })
+    ```
+
+    3. render: h => h(App) ?
+        - **render** : 뷰 내부적으로 사용하는 함수로,<br />
+        기본적으로 템플릿이라는 속성을 정의했을 때<br />
+        내부적으로 render 라는 함수가 실행된다고 보면 된다
+        - **ES6 기반 Vue.js - render: h => h(App) 해석**<br />
+        : Vue.js의 기본적인 render function의 간소화 버전
+        ```
+            // 변환과정 : #1 -> #2 -> #3 -> #4
+
+            // #1
+            render: function (createElement) {
+                return createElement(App);
+            }
+
+            // #2
+            render (createElement) {
+                return createElement(App);
+            }
+
+            // #3
+            render (h){
+                return h(App);
+            }
+
+            // #4
+            /*
+               참고 : h는 hyperscript의 약자로 
+               HTML 구조를 생성하는 스크립트를 의미. 
+               Virtual DOM 구현에서 관행적으로 사용
+             */ 
+            render: h => h(App);
+        ```
+    
+    4. App 이라는 컴포넌트의 파일을 import(불러온다)
+        - **컴포넌트의 파일을 다른 파일로 불러와서 render에 적용한다**
+    ```
+    import App from './App.vue'
+    ```
+
+    5. **render: h => h(app)** == **components: { 'app; : App }**<br />
+    render로 불러오는 것과 components 속성으로 정의한 것은 동일한 역활이다<br />
+    **Vue CLI 에서 문법이 바뀐 것을 확인**해야 한다
+    ```
+        var App  {
+            template: '<div>app</div>'
+        }
+
+        new Vue({
+            render: h => h(app),
+            components: {
+                'app; : App
+            }
+        }).$mount('#app')
+    ```
+
+<br />
