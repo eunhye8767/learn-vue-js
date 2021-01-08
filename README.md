@@ -2663,3 +2663,95 @@ npm은 node package manager 약자로 npm이 하는 역활은 *package.json*에�
             /* CSS */
         </style>
     ```
+
+<br />
+
+### 10.6. App.vue 와 HelloWorld.vue 설명
+1. main.js 파일을 보면 <br />
+**App** 변수에 ./App.vue(컴포넌트) 파일을 넣어주고 **불러왔다(import)**<br />
+불러온 **App 컴포넌트**를 #app 에 **연결하였다(render)**<br />
+![10-6-1](./_images/10-6-img1.png)
+
+2. **App.vue**
+    1. App.vue : template, script, style 로 구성 확인<br />
+    (**.vue 파일의 기본 구성**)<br />
+    ![10-6-2](./_images/10-6-img2.png)
+
+    2. **< template >**
+        - template 영역에 HTML 코드 작성
+        ```
+            <template>
+                <div id="app">
+                    <img alt="Vue logo" src="./assets/logo.png">
+                    <HelloWorld msg="Welcome to Your Vue.js App"/>
+                </div>
+            </template>
+        ```
+        - HelloWorld 컴포넌트 태그는 이름은 다르지만 이전에 작업한 hello-world와 같다
+            - **컴포넌트 태그 명명법**
+                1. < hello-world >< /hello-world >
+                2. < HelloWorld >< /HelloWorld > 
+                3. < HelloWorld />
+        ```
+            // vs code에서 파일 바로가기를 활용하려면
+            // 본 컴포넌트 태그 명명법을 사용해야 한다
+            <hello-world></hello-world>
+            
+            // 파스칼케이스 - 단어를 연결할 때 첫 스펠링 대문자로
+            <HelloWorld></HelloWorld>  
+
+            // 파스칼케이스에서 한 단어로 표시하고 닫힘기호(/>)로 닫아준다
+            // 현재 <HelloWorld /> 사용
+            <HelloWorld />             
+        ```
+    
+    3. **< script >**
+        - components 속성 안의 속성이 "키:밸류" 형태가 아닌 한 단어로 표시되어 있는데<br />
+        HelloWorld 이 단어는 'hello-world': HelloWorld 것을 뜻한다
+        - HelloWorld 를 import로 불러와서 components에 HelloWorld 로 표기할 수 있다
+        - export default { } 에 **인스턴스 옵션 속성 or 컴포넌트 옵션 속성**을 적용하면 된다
+        ```
+            import HelloWorld from './components/HelloWorld.vue'
+
+            export default {
+                name: 'App',
+                components: {
+                    HelloWorld
+                }
+            }
+        ```
+
+3. **components/HelloWorld.vue**
+    1. App.vue 에 연결된 HelloWorld.vue 파일 열기<br />
+    ![10-6-3](./_images/10-6-img3.png)
+
+    2. HelloWorld.vue 파일도 기본 구성이 template, script, css로 되어 있다<br />
+    ![10-6-4](./_images/10-6-img4.png)
+
+    3. **< script >**
+        - props: { msg: string } == props: [ 'msg' ] <br />
+        역활이 동일하다
+        - msg: string => string 타입까지 설정하였다
+        ```
+            var appContent= {
+                props: ['msg']
+            }
+        ```
+        ```
+            export default {
+                name: 'HelloWorld',
+                props: {
+                    msg: String
+                }
+            }
+        ```
+        - 데이터바인딩으로 표시되어 있다
+        ```
+            <template>
+                <div class="hello">
+                    <h1>{{ msg }}</h1>
+                </div>
+            </template>
+        ```
+
+<br />

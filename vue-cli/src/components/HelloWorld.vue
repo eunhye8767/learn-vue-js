@@ -32,9 +32,11 @@
 
 <script>
 export default {
+  // 인스턴스 옵션 속성 or 컴포넌트 속성
   name: 'HelloWorld',
   props: {
     msg: String
+    // props: ['msg']
   }
 }
 </script>
