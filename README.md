@@ -2754,4 +2754,106 @@ npm은 node package manager 약자로 npm이 하는 역활은 *package.json*에�
             </template>
         ```
 
+<br /><br /><br />
+
+## 11  싱글 파일 컴포넌트
+### 11.1 싱글 파일 컴포넌트에 배운 내용 적용하여 개발 시작하기
+1. App.vue 파일을 초기화 한다.<br />
+vue 를 입력하고 자동완성 기능으로 적용해준다
+```
+    <template>
+    
+    </template>
+    
+    <script>
+    export default {
+    
+    }
+    </script>
+    
+    <style>
+    
+    </style>
+```
+![11-1-1](./_images/11-1-img1.png)
+
 <br />
+
+2. template 에서 사용할 수 있는 것은 맨 먼저 div 태그를 만든다
+    - template 속성에는 html 앨리먼트가 최상위 레벨에 하나만 있어야 한다
+    - **옳은 방법 :**
+    ```
+        <template>
+            <div>
+                
+            </div>
+        </template>
+    ```
+    - **옳지 않은 방법 :**
+    ```
+        <template>
+            <div>
+                
+            </div>
+            <div>
+                
+            </div>
+        </template>
+    ```
+<br />
+
+3. div 태그에 app 문구를 추가한다
+```
+    <template>
+        <div>
+            app
+        </div>
+    </template>
+```
+![11-1-2](./_images/11-1-img2.png)
+
+<br />
+
+4. vue 인스턴스 속성을 추가한다
+    - 기존 Vue 인스턴스 생성 방법
+    ```
+        new Vue({
+            data: {
+
+            }
+        })
+    ```
+
+    - **CLI - Vue 인스턴스 생성 방법**
+        - *.vue 파일에서는 컴포넌트를 재사용 확률이 높기 때문에*<br />
+        *여러개의 컴포넌트에서 동일한 값을 공유(=참조)하면 안되기 때문에*<br />
+        아래와 같이 **function() 함수를 연결하여**<br />
+        **return 으로 새 객체를 반환해주는 문법으로 작업**해야 한다
+    ```
+        data: function() {
+            return {
+            
+            }
+        }
+    ```
+<br />
+
+5. App.vue 에 data 속성 -> str 객체 속성을 추가하고<br />
+데이터바인딩 문법을 통해 화면에 출력한다
+```
+    <template>
+        <div>
+            {{ str }}
+        </div>
+    </template>
+```
+```
+    export default {
+        data: function() {
+            return {
+                str: 'hi'
+            }
+        }
+    }
+```
+![11-1-3](./_images/11-1-img3.png)
