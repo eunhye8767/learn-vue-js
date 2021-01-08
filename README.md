@@ -2564,3 +2564,82 @@ npm은 node package manager 약자로 npm이 하는 역활은 *package.json*에�
     ```
 
 <br />
+
+### 10.5. 싱글 파일 컴포넌트 소개 및 여태까지 배운 내용 적용하는 방법
+- .vue 확장자에 따라 Vue 로고가 파일 이름에서 확인된다<br />
+![10-5-1](./_images/10-5-img1.png)
+<br />
+
+- .vue 파일에서 **vue** 라고 입력하면 **템플릿이 자동 완성**된다
+    - (VS Code 확장프로그램) Vetur 버전이 0.22이하에선 vue -> scf<br />
+![10-5-2](./_images/10-5-img2.png)<br />
+![10-5-3](./_images/10-5-img3.png)
+<br />
+
+- **싱글 파일 컴포넌트**<br />
+: 화면의 영역을 나눴을 때, **특정 영역에 해당하는 HTML, javascript, css 파일을**<br />
+**한 파일에서 관리하겠다 라는게 싱글 파일 컴포넌트이자 .vue 파일**이다.
+```
+    <template>
+        <!-- HTML -->
+    </template>
+
+    <script>
+    export default {
+        // javascript
+    }
+    </script>
+
+    <style>
+        /* CSS */
+    </style>
+```
+<br />
+
+- **배웠던 내용을 CLI에 맞게 적용할 때**
+    1. appHeader 컴포넌트를 생성했을 때 template의 내용을<br />
+    [ **.vue 파일** ]에서 - **template 안에 적용**한다
+    ```
+        var appHeader = {
+            template: '<div>header</div>'
+        }
+    ```
+    ```
+        <template>
+            <!-- HTML -->
+            <div>header</div>
+        </template>
+    ```
+    2. appHeader 컴포넌트 - **methods에 추가한 코드**들은<br />
+    [ **.vue 파일** ]에서 script - **export default 안에** 적용한다
+    ```
+        var appHeader = {
+            template: '<div>header</div>',
+            methods: {
+                addNum: function() {
+
+                }
+            }
+        }
+    ```
+    ```
+        <template>
+            <!-- HTML -->
+            <div>header</div>
+        </template>
+
+        <script>
+        export default {
+            // javascript - 인스턴스 옵션
+            methods: {
+                addNum: function() {
+
+                }
+            }
+        }
+        </script>
+
+        <style>
+            /* CSS */
+        </style>
+    ```
