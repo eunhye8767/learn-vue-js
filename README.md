@@ -1,3 +1,23 @@
+# 개발 환경 세팅
+- Chrome(크롬 브라우저) : <br />
+https://www.google.com/intl/ko/chrome/
+- 크롬 확장프로그램 - Vue.js Devtools :<br />
+https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd
+- Visual Studio Code : <br />
+https://code.visualstudio.com/
+- Node.js (LTS 버전) : <br />
+https://nodejs.org/ko/
+
+- [VS Code 플러그인 설치] Vetur
+- [VS Code 플러그인 설치] Night Owl
+- [VS Code 플러그인 설치] Material Icon Theme
+- [VS Code 플러그인 설치] Live Server
+- [VS Code 플러그인 설치] ESLint
+- [VS Code 플러그인 설치] Prettier
+- [VS Code 플러그인 설치] Auto Close Tag
+
+<br /><br /><br />
+
 # LV.01 Vue.js 시작하기 - Age of Vue.js
 
 ##  1. vue.js 소개
