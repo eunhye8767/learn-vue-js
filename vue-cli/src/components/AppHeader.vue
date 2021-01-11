@@ -1,12 +1,12 @@
 <template>
   <header>
-      <h1>header</h1>
+      <h1>{{ propsdata }}</h1>
   </header>
 </template>
 
 <script>
 export default {
-
+    props: ['propsdata']
 }
 </script>
 

@@ -2964,3 +2964,47 @@ vue 자동완성 기능을 통해 기본 구성을 갖춘 후 작업을 한다
 
 <br />
 
+### 11.3. 싱글 파일 컴포넌트에서 props 속성 사용하는 방법
+AppHeader.vue 파일에서 header 텍스트를<br />
+App.vue에서 정의한 내용으로 props<br />
+1. [ App.vue ] 파일에서 data 에 전달할 내용을 속성으로 추가한다
+```
+    export default {
+        data: function() {
+            return {
+                message: 'header',
+            }
+        },
+    }
+```
+2. [ App.vue ] 파일에서 app-header 컴포넌트 태그에 **v-bind 디렉티브를 이용해 props 데이터 값을 연결**해준다<br />
+v-bind:"(하위컴포넌트에서 정의한)프롭스속성이름="상위컴포넌트의 데이터 이름'
+    - 상위컴포넌트의 데이터 이름 = [App.vue 파일] data로 정의한 message 속성
+```
+    <app-header v-bind:프롭스속성이름="message"></app-header>
+```
+3. [ AppHeader.vue ] 파일에서 props 속성을 생성한다
+```
+    <script>
+        export default {
+            props: ['propsdata']
+        }
+    </script>
+```
+4. 생성한 props를 [ AppHeader.vue ] 파일에서 데이터바인팅 문법을 통해 화면에 출력한다
+```
+    <template>
+        <header>
+            <h1>{{ propsdata }}</h1>
+        </header>
+    </template>
+```
+5. 2번 [ App.vue ] 파일, v-bind 디렉티브에 생성한 props 속성을 적용한다
+    - (하위컴포넌트에서 정의한)프롭스속성이름 : propsdata
+```
+    <app-header v-bind:propsdata="message"></app-header>
+```
+![11-3-1](./_images/11-3-img1.png)<br />
+![11-3-2](./_images/11-3-img2.png)
+
+<br />

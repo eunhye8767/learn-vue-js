@@ -1,7 +1,8 @@
 <template>
   <div>
     {{ str }}
-    <app-header></app-header>
+    <!-- app-header v-bind:"(하위컴포넌트에서 정의한)프롭스속성이름="상위컴포넌트의 데이터 이름'></app-header -->
+    <app-header v-bind:propsdata="message"></app-header>
   </div>
 </template>
 
@@ -12,7 +13,8 @@ export default {
   
   data: function() {
     return {
-      str: 'hi'
+      str: 'hi',
+      message: 'header',
     }
   },
   components: {
