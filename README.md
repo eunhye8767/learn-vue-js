@@ -3008,3 +3008,92 @@ v-bind:"(하위컴포넌트에서 정의한)프롭스속성이름="상위컴포�
 ![11-3-2](./_images/11-3-img2.png)
 
 <br />
+
+### 11.4. 싱글 파일 컴포넌트에서 event emit 구현하기
+1. [ AppHeader.vue ] - send 버튼을 생성하고 클릭이벤트를 적용한다<br />
+send 버튼을 클릭하면 메서드 sendEvent 함수가 실행된다<br />
+즉, $emit 으로 정의한 이벤트가 위쪽 컴포넌트(상위 컴포넌트)인 App.vue 로 전달이 된다
+```
+    <template>
+        <header>
+            <h1>{{ propsdata }}</h1>
+            <button v-on:click="sendEvent">send</button>
+        </header>
+    </template>
+```
+```
+    <script>
+        export default {
+            props: ['propsdata'],
+            methods: {
+                sendEvent: function() {
+                    this.$emit('')
+                }
+            }
+        }
+    </script>
+```
+<br />
+
+2. [ AppHeader.vue ] 파일에서 보낼 이벤트 이름을 'renew' 로 지정한다<br />
+버튼을 클릭하면 props 데이터 내용을 바꾸려고 한다
+```
+    <script>
+        export default {
+            props: ['propsdata'],
+            methods: {
+                sendEvent: function() {
+                    this.$emit('renew')
+                }
+            }
+        }
+    </script>
+```
+<br />
+
+3. renew 라는 이벤트를 올렸기 때문에<br />
+이벤트를 올렸을 때 받을 수 있는 곳은 [ App.vue ] 파일에서<br />
+app-header 컴포넌트 태그가 된다<br />
+![11-4-1](./_images/11-4-img1.png)
+<br />
+
+4. [ App.vue ] 파일에서 버튼을 눌렀을 때 실행된 메소드 함수를 만들어주고 
+app-header 컴포넌트 태그에 v-on 디렉티브를 이용해 연결해준다
+    - 생성한 버튼을 클릭하면 message: 'header' 텍스트가 'hi'로 바뀐다
+```
+    <template>
+        <div>
+            {{ str }}
+            <app-header 
+                v-bind:propsdata="message"
+                v-on:renew="renewMessage"></app-header>
+        </div>
+    </template>
+```
+```
+    <script>
+        import AppHeader from './components/AppHeader.vue'
+        export default {
+            data: function() {
+                return {
+                    str: 'hi',
+                    message: 'header',
+                }
+            },
+            components: {
+                'app-header': AppHeader
+            },
+            methods: {
+                renewMessage: function() {
+                    this.message = 'hi';
+                }
+            }
+        }
+    </script>
+```
+<br />
+
+5. [ 뷰 개발자 도구] 에서 이벤트 로깅을 확인한다
+    - header 텍스트가 hi 로 바뀐 것을 확인할 수 있다
+    - [ 뷰 개발자 도구 ] 이벤트 로깅 탭에서 renew 이벤트과 관련된 로그를 확인할 수 있다
+![11-4-2](./_images/11-4-img2.png)

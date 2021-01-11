@@ -2,7 +2,9 @@
   <div>
     {{ str }}
     <!-- app-header v-bind:"(하위컴포넌트에서 정의한)프롭스속성이름="상위컴포넌트의 데이터 이름'></app-header -->
-    <app-header v-bind:propsdata="message"></app-header>
+    <app-header 
+      v-bind:propsdata="message"
+      v-on:renew="renewMessage"></app-header>
   </div>
 </template>
 
@@ -19,8 +21,12 @@ export default {
   },
   components: {
     'app-header': AppHeader
+  },
+  methods: {
+    renewMessage: function() {
+      this.message = 'hi';
+    }
   }
-
 }
 </script>
 
