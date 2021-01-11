@@ -2464,6 +2464,7 @@ https://stackoverflow.com/questions/5926672/where-does-npm-install-packages
     6. alt 키를 누르고 로컬사이트 주소를 클릭하면 브라우저에서 확인할 수 있다
     ![10-3-9](./_images/10-3-img9.png)
 
+    7. 터미널 종료는 **ctrl + c 를 누르면 해당 로컬서버로 연결된 것이 종료**가 된다.
 <br />
 
 ### 10.4 CLI로 생성한 프로젝트 폴더 구조 확인 및 main.js 파일 설명
@@ -3097,3 +3098,37 @@ app-header 컴포넌트 태그에 v-on 디렉티브를 이용해 연결해준다
     - header 텍스트가 hi 로 바뀐 것을 확인할 수 있다
     - [ 뷰 개발자 도구 ] 이벤트 로깅 탭에서 renew 이벤트과 관련된 로그를 확인할 수 있다
 ![11-4-2](./_images/11-4-img2.png)
+
+<br /><br /><br />
+
+##  12. 최종 프로젝트 - 사용자 입력 폼 만들기
+### 12.1. 프로젝트 생성 및 마크업 작업
+1. 새 터미널에서 **vue create vue-form 명령어를 입력**한다<br />
+Successfully 메세지가 나오고 cd vue-form 이 터미널창에서 보여져야 한다<br />
+![12-1-1](./_images/12-1-img1.png)<br />
+
+2. cd ~~ , npm run ~~ 2개의 명령어를 차례대로 입력한다<br />
+![12-1-2](./_images/12-1-img2.png)<br />
+
+3. Local, Network 서버 사이트 주소가 보여져야 한다<br />
+![12-1-3](./_images/12-1-img3.png)<br />
+
+4. App.vue 파일의 내용을 초기화 하고 vue 자동완성 기능으로 기본 구성을 갖춘다<br />
+![12-1-4](./_images/12-1-img4.png)<br />
+
+5. 기본 마크업 작성 (로그인 폼 생성)
+```
+    <template>
+        <form action="">
+            <div>
+                <label for="username">id : </label>
+                <input type="text" name="username" id="username">
+            </div>
+            <div>
+                <label for="password">pw : </label>
+                <input type="text" name="password" id="password">
+            </div>
+            <button>login</button>
+        </form>
+    </template>
+```
