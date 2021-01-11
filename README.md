@@ -3126,9 +3126,122 @@ Successfully 메세지가 나오고 cd vue-form 이 터미널창에서 보여져
             </div>
             <div>
                 <label for="password">pw : </label>
-                <input type="text" name="password" id="password">
+                <input type="password" name="password" id="password">
             </div>
             <button>login</button>
         </form>
     </template>
 ```
+
+6. 데이터 속성을 추가한다<br />
+아이디(ID)와 비밀번호(PW) 값을 가져오기 위해 추가
+```
+    export default {
+        data: function() {
+            return {
+                username: '',
+                password: '',
+            }
+        }
+    }
+```
+![12-1-5](./_images/12-1-img5.png)<br />
+
+7. v-model 디렉티브를 이용하여 data 속성과 연결한다<br />
+- id 인풋박스 : v-model="username"<br />
+- pw 인풋박스 : v-model="password"
+```
+    <template>
+        <form action="">
+            <div>
+                <label for="username">id : </label>
+                <input type="text" name="username" id="username" v-model="username">
+            </div>
+            <div>
+                <label for="password">pw : </label>
+                <input type="password" name="password" id="password" v-model="password">
+            </div>
+            <button>login</button>
+        </form>
+    </template>
+```
+![12-1-6](./_images/12-1-img6.png)<br />
+
+8. login 버튼을 클릭하면 type=submit 일 땐, 정보가 form 으로 전달이 되기 때문에 <br />
+버튼 태그가 아닌 form 태그에 v-on 디렉티브를 적용한다
+```
+    <template>
+        <form action="">
+            <div>
+                <label for="username">id : </label>
+                <input type="text" name="username" id="username" v-model="username">
+            </div>
+            <div>
+                <label for="password">pw : </label>
+                <input type="password" name="password" id="password" v-model="password">
+            </div>
+            <button>login</button>
+        </form>
+    </template>
+```
+```
+    export default {
+        data: function() {
+            return {
+                username: '',
+                password: '',
+            }
+        },
+        methods: {
+            submitForm: function() {
+            
+            }
+        }
+    }
+```
+
+9. submitForm 메서드에 입력한 아이디와 비밀번호를 콘솔에 보일 수 있게 정의한다.
+```
+    export default {
+        data: function() {
+            return {
+                username: '',
+                password: '',
+            }
+        },
+        methods: {
+            submitForm: function() {
+                console.log(this.username, this.password)
+            }
+        }
+    }
+```
+
+10. login 버튼을 클릭하면 콘솔에 찍히자마자 새로고침이 된다.<br />
+**form 의 기본 동작인 새로고침이 작동**된다<br /><br />
+*어떤 폼을, 어떤 정보를 제출하고 해당 페이지로 넘어가는 특성이 있기 때문에*<br />
+*그걸 막아주기 위해서 submitForm 메서드에 event 라는 인자를 받아서*<br />
+**event.preventDefault();** 를 한다<br />
+    - **event.preventDefault() = 폼의 이동, 새로고침을 막는 방법**
+![12-1-7](./_images/12-1-img7.png)<br />
+```
+    export default {
+        data: function() {
+            return {
+                username: '',
+                password: '',
+            }
+        },
+        methods: {
+            submitForm: function(event) {
+                event.preventDefault();
+                console.log(this.username, this.password)
+            }
+        }
+    }
+```
+![12-1-8](./_images/12-1-img8.png)<br />
+
+11. [ 참고 ] 이벤트 버블링, 이벤트 캡처 그리고 이벤트 위임<br />
+https://joshua1988.github.io/web-development/javascript/event-propagation-delegation/
+
