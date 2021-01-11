@@ -2857,3 +2857,110 @@ vue 를 입력하고 자동완성 기능으로 적용해준다
     }
 ```
 ![11-1-3](./_images/11-1-img3.png)
+
+<br />
+
+### 11.2. 싱글 파일 컴포넌트 체계에서 컴포넌트 등록하기
+1. 컴포넌트를 등록할 때엔 CLI 체계에선 src/components 폴더에 생성한다<br />
+    - Vue CLI 설치시 자동으로 components 폴더가 생성됨<br />
+![11-2-1](./_images/11-2-img1.png)
+
+2. src/components/AppHeader.vue 파일을 생성한다
+    - **components에 .vue 파일을 만들 때에는**<br />
+        1. 파스칼케이스로 단어와 단어를 묶을 때 첫 단어 스펠링은 대문자<br />
+        (ex. appheader => AppHeader)
+        2. **단어는 ★무조건★ 2단어 이상으로 묶어야 한다.**
+            - 표준 태그와 충돌날 수가 있기 때문에 2단어 이상을 묶어줘야 한다
+            - 예를 들어 main.vue 컴포넌트 파일을 만들었을 때<br />
+            브라우저가 표준 태그 '< main >'과 헷갈릴 수 있어 오류(충돌)이 발생한다.<br />
+            그래서 공식문서 가이드에 *2개의 단어를 조합하는 것을 강조*했다
+            ```
+                <AppHeader></AppHeader>
+                <main></main>
+            ```
+
+        3. 공식문서 스타일 가이드 참고(한글)<br />
+        https://kr.vuejs.org/v2/style-guide/index.html<br />
+    ![11-2-2](./_images/11-2-img2.png)
+<br />
+
+3. 생성한 AppHeader.vue 파일에서 작업을 한다<br />
+vue 자동완성 기능을 통해 기본 구성을 갖춘 후 작업을 한다
+```
+    <template>
+    <header>
+        <h1>header</h1>
+    </header>
+    </template>
+
+    <script>
+    export default {
+
+    }
+    </script>
+
+    <style>
+
+    </style>
+```
+
+4. 생성한 AppHeader.vue 컴포넌트 파일을 App.vue 에서 사용하려고 한다
+5. App.vue 파일을 열고 script 에서 AppHeader.vue 파일을 불러온다<br />
+    - < script > 영역 제일 첫번째 줄에 import 로 AppHeader.vue 파일을 불러온다<br />
+    **import 변수명 from '경로'**
+    - AppHeader 변수를 만들고 AppHeader.vue 를 변수에 담았다
+    - components 에서 변수를 app-header 태그에 연결해준다
+```
+    <script>
+        iimport AppHeader from './components/AppHeader.vue'
+        export default {
+            data: function() {
+                return {
+                    str: 'hi'
+                }
+            },
+            components: {
+                'app-header': AppHeader
+            }
+        }
+    </script>
+```
+6. 생성한 컴포넌트 태그를 template 영역에 추가한다
+```
+    <template>
+        <div>
+            {{ str }}
+            <app-header></app-header>
+        </div>
+    </template>
+```
+또는 다른 컴포넌트 명명법에 따라 아래와 같이 적용할 수도 있다
+```
+    <template>
+        <div>
+            <AppHeader />
+        </div>
+    </template>
+
+    <script>
+        import AppHeader from './components/AppHeader.vue'
+        export default {
+            data: function() {
+                return {
+                    str: 'hi'
+                }
+            },
+            components: {
+                AppHeader
+            }
+        }
+    </script>
+
+    <style>
+
+    </style>
+```
+![11-2-3](./_images/11-2-img3.png)
+
+<br />
+
