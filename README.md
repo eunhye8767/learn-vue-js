@@ -2342,6 +2342,7 @@ watch 보다는 computed가 대부분의 케이스에 적합하다 라고 명시
 **명령어를 통한 특정 액션을 수행**하는 도구. ( =명령어 실행 보조도구)
 - [Vue CLI 공식문서] Installation 페이지에서처럼 명령어를 통해 설치를 해야한다<br />
 : https://cli.vuejs.org/guide/installation.html
+- Vue CLI는 애플리케이션 개발에 집중할 수 있도록 프로젝트의 구성을 도와주는 역할이다.
 
 <br />
 
@@ -3245,3 +3246,216 @@ Successfully 메세지가 나오고 cd vue-form 이 터미널창에서 보여져
 11. [ 참고 ] 이벤트 버블링, 이벤트 캡처 그리고 이벤트 위임<br />
 https://joshua1988.github.io/web-development/javascript/event-propagation-delegation/
 
+12. **event.preventDefault()** 경우,<br />
+**이전의 바닐라JS, jQuery에서 사용하던 방식**으로<br />
+vue에서는 v-on:submit.prevent 로 적용해준다<br />
+먼저, script 영역에서 event.preventDefault() 는 **주석처리**한다
+```
+    export default {
+        data: function() {
+            return {
+                username: '',
+                password: '',
+            }
+        },
+        methods: {
+            submitForm: function() {
+                // event.preventDefault();
+                console.log(this.username, this.password);
+            }
+        }
+    }
+```
+13. form v-on 속성에 이벤트 모디파이어 .prevent 를 추가한다
+    - v-on:submit.prevent == submit에 대해서 이벤트 기본 동작을 막겠다
+```
+    <template>
+        <form v-on:submit.prevent="submitForm">
+            <div>
+                <label for="username">id : </label>
+                <input type="text" name="username" id="username" v-model="username">
+            </div>
+            <div>
+                <label for="password">pw : </label>
+                <input type="password" name="password" id="password" v-model="password">
+            </div>
+            <button type="submit">login</button>
+        </form>
+    </template>
+```
+14. 인풋에 입력한 ID와 PW 값을 콘솔에서 확인할 수 있다<br />
+![12-1-9](./_images/12-1-img9.png)<br />
+
+15. 받아온 ID와 PW 값을 서버에다가 POST로 전송시키려 한다<br />
+(axios 라이브러리 사용예정)
+    - http 통신 라이브러리 axios(액시오스),<br />
+    3rd party(third party, 서드파티) 라이브러리 설치할 때는<br />
+    실행되고 있는 터미널을 종료시킨다
+```
+    // 터미널 종료키 
+    ctrl + c
+```
+16. 종료된 상태에서 npm i axios 명령어를 입력한다<br />
+(axios 라이브러리 설치)
+```
+    npm i axios
+```
+17. 설치가 완료되면 script 에서 axios 를 불러온다
+```
+    import axios from 'axios';
+```
+18. 메서드 영역에 axios.post() 을 입력한다
+    1. axios를 사용하는 이유는 브라우저에서 서버로 어떤 데이터를 주고받기 위한 라이브러리
+    2. .post() == 데이터를 생성하거나 조작할 때 사용하는 메서드
+```
+    import axios from 'axios';
+
+    export default {
+        data: function() {
+            return {
+                username: '',
+                password: '',
+            }
+        },
+        methods: {
+            submitForm: function() {
+                // event.preventDefault();
+                console.log(this.username, this.password);
+
+                axios.post();
+            }
+        }
+    }
+```
+19. https://jsonplaceholder.typicode.com/ 사이트에서 Try it 또는 example 에서 url 갖고온다<br />
+https://jsonplaceholder.typicode.com/todos/1 갖고온 주소에서 todos/1 을 users로 수정하여 적용한다<br />
+*REST API 규칙에 의해 https://jsonplaceholder.typicode.com/users 에서 데이터를 보내고 받을 수 있다*<br />
+![12-1-10](./_images/12-1-img10.png)<br />
+```
+    import axios from 'axios';
+    
+    export default {
+        data: function() {
+            return {
+                username: '',
+                password: '',
+            }
+        },
+        methods: {
+            submitForm: function() {
+                // event.preventDefault();
+                console.log(this.username, this.password);
+            
+                var url = 'https://jsonplaceholder.typicode.com/users'
+                axios.post();
+            }
+        }
+    }
+```
+20. .post() 규칙에 따라서 값을 입력해준다 == .post(url, data)<br />
+(url을 보내고 data 를 넘긴다)<br />
+data에는 입력받은 this.username 과 this.userpassword 를 보낸다
+```
+    import axios from 'axios';
+    
+    export default {
+        data: function() {
+            return {
+                username: '',
+                password: '',
+            }
+        },
+        methods: {
+            submitForm: function() {
+                // event.preventDefault();
+                console.log(this.username, this.password);
+            
+                var url = 'https://jsonplaceholder.typicode.com/users';
+                var data = {
+                    username: this.username,
+                    password: this.password
+                }
+                axios.post(url, data);
+            }
+        }
+    }
+```
+21. url과 data를 호스트 요청으로 보내게 되는데<br />
+성공적으로 보냈는 지? 실패했는 지를 than(), catch() 프로미스 구문에 의해서 확인할 수 있다
+```
+    import axios from 'axios';
+    
+    export default {
+        data: function() {
+            return {
+                username: '',
+                password: '',
+            }
+        },
+        methods: {
+            submitForm: function() {
+                // event.preventDefault();
+                console.log(this.username, this.password);
+            
+                var url = 'https://jsonplaceholder.typicode.com/users';
+                var data = {
+                    username: this.username,
+                    password: this.password
+                }
+                axios.post(url, data)
+                    .then()
+                    .catch();
+            }
+        }
+    }
+```
+22. then쪽에 function 으로 response 로 받아본다 (성공했을 때)<br />
+catch쪽에 function 으로 error 를 받아본다 (실패했을 때)
+```
+    import axios from 'axios';
+    
+    export default {
+        data: function() {
+            return {
+                username: '',
+                password: '',
+            }
+        },
+        methods: {
+            submitForm: function() {
+                // event.preventDefault();
+                console.log(this.username, this.password);
+            
+                var url = 'https://jsonplaceholder.typicode.com/users';
+                var data = {
+                    username: this.username,
+                    password: this.password
+                }
+                axios.post(url, data)
+                    .then(function(response) {
+                    console.log(response);
+                    })
+                    .catch(function(error){
+                    console.log(error);
+                    });
+            }
+        }
+    }
+```
+23. 터미널을 다시 켜준다.<br />
+해당 폴더를 선택하고 우클릭으로 "터미널 열기" 클릭<br />
+내가 원하는 폴더의 경로로 터미널이 열린다<br />
+![12-1-11](./_images/12-1-img11.png)<br />
+![12-1-12](./_images/12-1-img12.png)<br />
+
+24. npm run serve 명령어를 입력하여 로컬서버를 다시 켜준다<br />
+동일하게 :8080 으로 되어있는 지 확인 후 해당 주소를 브라우저에서 확인한다<br />
+![12-1-13](./_images/12-1-img13.png)<br />
+
+25. 브라우저에서 ID와 PW를 입력해서 보면<br />
+config: url 을 보내고 <br />
+data{ username: , password: , } 응답 받은 것을 확인할 수 있다<br />
+![12-1-14](./_images/12-1-img14.png)<br />
+
+26. 로직이 완료되면 브라우저 - Network 패널에서도 결과 확인이 가능하다<br />
+![12-1-15](./_images/12-1-img15.png)<br />
